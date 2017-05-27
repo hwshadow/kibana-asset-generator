@@ -6,7 +6,7 @@ Got tired of configuring stuff via the kibana GUI ...  so we are going to hackab
 
 
 # About
-### Dashboard package
+### dashboard package
 Will generate kibana dashboard documents.  Requires two inputs a **skeleton** and **configuration yaml**.
 
 #### Skeleton
