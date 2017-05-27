@@ -127,8 +127,8 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 
 ### How-to
 #### Config
-Edit dashSkeleton variable in main.go
-Edit dashYamlz variable in main.go
+- Edit dashSkeleton variable in main.go
+- Edit dashYamlz variable in main.go
 
 #### Install
 ```sh
