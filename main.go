@@ -1,7 +1,7 @@
 package main
 
 import (
-	"dash/dash"
+	"dash/dashboard"
 	"encoding/json"
 	"fmt"
 )
