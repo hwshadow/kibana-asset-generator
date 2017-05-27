@@ -123,7 +123,7 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 ```
 
 #### As seen in Kibana
-![exampleDash](http://imgur.com/a/9gM1P)
+![exampleDash](http://i.imgur.com/ql115H7.png)
 
 ### How-to
 #### Config
