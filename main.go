@@ -2,46 +2,15 @@ package main
 
 import (
 	"dash/dashboard"
-	"encoding/json"
 	"fmt"
 )
 
 func main() {
-	err := renderDash()
+	_, err := dashboard.RenderDoc("dashboard-noc2", dashSkeleton, dashYamlz)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-}
-
-func renderDash() (err error) {
-	widgetMap, err := dashboard.Skeleton(dashSkeleton)
-	if err != nil {
-		return
-	}
-
-	err = widgetMap.Supplement([]byte(dashYamlz))
-	if err != nil {
-		return
-	}
-
-	err = widgetMap.Validate()
-	if err != nil {
-		return
-	}
-
-	doc, err := widgetMap.ToDoc("dashboard-noc2", "")
-	if err != nil {
-		return
-	}
-
-	bytez, err := json.MarshalIndent(doc, "", "  ")
-	if err != nil {
-		return
-	}
-
-	fmt.Println(string(bytez))
-	return
 }
 
 var dashSkeleton string = `00.__.__.__.__.20.__.01.__.__.__.__
