@@ -4,12 +4,14 @@ Got tired of configuring stuff via the kibana GUI ...  so we are going to hackab
   - You need to instantiate many instances of the same searches, visualizations, dashboards but for slightly different index names.  Wildcard index is not optimal for you.
   - You hate building dashboards in the GUI.
 
-# About
+## About
 ### idxp package
 Will pull an index's field mappings and translate that into the equivalent kibana  index-pattern.  Requires an index pattern, time field name, and also config for target to source mapping data and writing resulting index-pattern.
 
 #### Field mappings from elasticsearch
 http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
+
+*payload below is truncated*
 ```json
 {
   "job": {
@@ -68,304 +70,6 @@ http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
           "mapping": {
             "Arborist": {
               "type": "boolean"
-            }
-          }
-        },
-        "ServiceType": {
-          "full_name": "ServiceType",
-          "mapping": {
-            "ServiceType": {
-              "type": "keyword"
-            }
-          }
-        },
-        "LowestBid": {
-          "full_name": "LowestBid",
-          "mapping": {
-            "LowestBid": {
-              "type": "float"
-            }
-          }
-        },
-        "NeedsWoodGone": {
-          "full_name": "NeedsWoodGone",
-          "mapping": {
-            "NeedsWoodGone": {
-              "type": "boolean"
-            }
-          }
-        },
-        "Street": {
-          "full_name": "Street",
-          "mapping": {
-            "Street": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "_timestamp": {
-          "full_name": "_timestamp",
-          "mapping": {}
-        },
-        "_version": {
-          "full_name": "_version",
-          "mapping": {}
-        },
-        "GotPayment": {
-          "full_name": "GotPayment",
-          "mapping": {
-            "GotPayment": {
-              "type": "boolean"
-            }
-          }
-        },
-        "_routing": {
-          "full_name": "_routing",
-          "mapping": {}
-        },
-        "Status": {
-          "full_name": "Status",
-          "mapping": {
-            "Status": {
-              "type": "keyword"
-            }
-          }
-        },
-        "Priority": {
-          "full_name": "Priority",
-          "mapping": {
-            "Priority": {
-              "type": "boolean"
-            }
-          }
-        },
-        "SourceTracking": {
-          "full_name": "SourceTracking",
-          "mapping": {
-            "SourceTracking": {
-              "type": "keyword"
-            }
-          }
-        },
-        "City": {
-          "full_name": "City",
-          "mapping": {
-            "City": {
-              "type": "keyword"
-            }
-          }
-        },
-        "PhonePrimary": {
-          "full_name": "PhonePrimary",
-          "mapping": {
-            "PhonePrimary": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "script": {
-          "full_name": "script",
-          "mapping": {
-            "script": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "type": "keyword",
-                  "ignore_above": 256
-                }
-              }
-            }
-          }
-        },
-        "State": {
-          "full_name": "State",
-          "mapping": {
-            "State": {
-              "type": "keyword"
-            }
-          }
-        },
-        "ClientFolderURL": {
-          "full_name": "ClientFolderURL",
-          "mapping": {
-            "ClientFolderURL": {
-              "type": "text",
-              "index": false
-            }
-          }
-        },
-        "_source": {
-          "full_name": "_source",
-          "mapping": {}
-        },
-        "_id": {
-          "full_name": "_id",
-          "mapping": {}
-        },
-        "LastName": {
-          "full_name": "LastName",
-          "mapping": {
-            "LastName": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "StumpGrinding": {
-          "full_name": "StumpGrinding",
-          "mapping": {
-            "StumpGrinding": {
-              "type": "boolean"
-            }
-          }
-        },
-        "_uid": {
-          "full_name": "_uid",
-          "mapping": {}
-        },
-        "WoodOption": {
-          "full_name": "WoodOption",
-          "mapping": {
-            "WoodOption": {
-              "type": "keyword"
-            }
-          }
-        },
-        "PhoneSecondary": {
-          "full_name": "PhoneSecondary",
-          "mapping": {
-            "PhoneSecondary": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "Description": {
-          "full_name": "Description",
-          "mapping": {
-            "Description": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "_index": {
-          "full_name": "_index",
-          "mapping": {}
-        },
-        "DateRequested": {
-          "full_name": "DateRequested",
-          "mapping": {
-            "DateRequested": {
-              "type": "date"
-            }
-          }
-        },
-        "NeedsSplitter": {
-          "full_name": "NeedsSplitter",
-          "mapping": {
-            "NeedsSplitter": {
-              "type": "boolean"
-            }
-          }
-        },
-        "ClientIPAddress": {
-          "full_name": "ClientIPAddress",
-          "mapping": {
-            "ClientIPAddress": {
-              "type": "ip",
-              "ignore_malformed": true
-            }
-          }
-        },
-        "Cleanup": {
-          "full_name": "Cleanup",
-          "mapping": {
-            "Cleanup": {
-              "type": "boolean"
-            }
-          }
-        },
-        "_all": {
-          "full_name": "_all",
-          "mapping": {}
-        },
-        "_parent": {
-          "full_name": "_parent",
-          "mapping": {}
-        },
-        "TaxCode": {
-          "full_name": "TaxCode",
-          "mapping": {
-            "TaxCode": {
-              "type": "short"
-            }
-          }
-        },
-        "UserAgent": {
-          "full_name": "UserAgent",
-          "mapping": {
-            "UserAgent": {
-              "type": "text",
-              "analyzer": "standard"
-            }
-          }
-        },
-        "TaxRate": {
-          "full_name": "TaxRate",
-          "mapping": {
-            "TaxRate": {
-              "type": "float"
-            }
-          }
-        },
-        "NeedsArborist": {
-          "full_name": "NeedsArborist",
-          "mapping": {
-            "NeedsArborist": {
-              "type": "boolean"
-            }
-          }
-        },
-        "TreeNumber": {
-          "full_name": "TreeNumber",
-          "mapping": {
-            "TreeNumber": {
-              "type": "byte"
-            }
-          }
-        },
-        "CompAssoc": {
-          "full_name": "CompAssoc",
-          "mapping": {
-            "CompAssoc": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "NeedsGrinding": {
-          "full_name": "NeedsGrinding",
-          "mapping": {
-            "NeedsGrinding": {
-              "type": "boolean"
-            }
-          }
-        },
-        "ZipCode": {
-          "full_name": "ZipCode",
-          "mapping": {
-            "ZipCode": {
-              "type": "text",
-              "analyzer": "standard"
             }
           }
         },
@@ -626,10 +330,10 @@ Notice that the skeleton and yaml combine to create this portion
 #### As seen in Kibana
 ![exampleDash](http://i.imgur.com/ql115H7.png)
 
-# Tested with
+## Tested with
 - Elasticsearch 5.1.1 / Kibana 5.1.1
 
-# How-to
+## How-to
 ### Config
 - edit /etc/app.yaml (house config for target elasticsearch server)
 - edit /etc/dashboard.skeleton  (dashboard widget layout)
@@ -646,7 +350,7 @@ $ dash
 $ dash -idx="job*" -timeField="DateRequested"
 ```
 
-# Todos
+## Todos
 - Move input out of code
 - Implement simplistic Visualization package
 - Implement simplistic Search package
@@ -657,5 +361,5 @@ $ dash -idx="job*" -timeField="DateRequested"
 - App to load objects into target elasticsearch server
 
 
-# License
+## License
 MIT
