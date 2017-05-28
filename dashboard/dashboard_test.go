@@ -13,7 +13,7 @@ func TestSkeletonToWidgetMapMultiFormat5_1_1(t *testing.T) {
 	skeletons := []string{dash1Skeleton, dash2Skeleton, dash3Skeleton}
 	for _, skeleton := range skeletons {
 		t.Log(skeleton)
-		widgetMap, err := Skeleton(skeleton)
+		widgetMap, err := Skeleton([]byte(skeleton))
 		assert.Nil(err)
 		bytez, err := json.Marshal(widgetMap)
 		assert.Nil(err)
@@ -34,7 +34,7 @@ func TestSkeletonToWidgetMapBadInput5_1_1(t *testing.T) {
 	skeletons := []string{dash4Skeleton, dash5Skeleton, dash6Skeleton, dash7Skeleton, dash8Skeleton}
 	for _, skeleton := range skeletons {
 		t.Log(skeleton)
-		_, err := Skeleton(skeleton)
+		_, err := Skeleton([]byte(skeleton))
 		assert.NotNil(err)
 	}
 

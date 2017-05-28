@@ -1,0 +1,31 @@
+00:
+  id: sick_vs_nasty
+  type: visualization
+01:
+  id: state_of_the world
+  type: search
+  columns:
+   - sick
+   - nasty
+  sort:
+   - size
+02:
+  id: age_ratios
+  type: visualization
+03:
+  id: people
+  type: search
+  columns:
+   - first_name
+   - last_name
+  sort:
+   - age
+20:
+  id: count_nasty
+  type: visualization
+21:
+  id: count_size
+  type: visualization
+22:
+  id: count_snakebites
+  type: visualization

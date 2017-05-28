@@ -4,10 +4,140 @@ Got tired of configuring stuff via the kibana GUI ...  so we are going to hackab
   - You need to instantiate many instances of the same searches, visualizations, dashboards but for slightly different index names.  Wildcard index is not optimal for you.
   - You hate building dashboards in the GUI.
 
+## About
+### idxp package
+Will pull an index's field mappings and translate that into the equivalent kibana  index-pattern.  Requires an index pattern, time field name, and also config for target to source mapping data and writing resulting index-pattern.
 
-# About
+#### Field mappings from elasticsearch
+http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
+
+*payload below is truncated*
+```json
+{
+  "job": {
+    "mappings": {
+      "record": {
+        "_ttl": {
+          "full_name": "_ttl",
+          "mapping": {}
+        },
+        "Email": {
+          "full_name": "Email",
+          "mapping": {
+            "Email": {
+              "type": "keyword"
+            }
+          }
+        },
+        "script.keyword": {
+          "full_name": "script.keyword",
+          "mapping": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "ChippingOption": {
+          "full_name": "ChippingOption",
+          "mapping": {
+            "ChippingOption": {
+              "type": "keyword"
+            }
+          }
+        },
+        "TreeJobFolderURL": {
+          "full_name": "TreeJobFolderURL",
+          "mapping": {
+            "TreeJobFolderURL": {
+              "type": "text",
+              "index": false
+            }
+          }
+        },
+        "TreeService": {
+          "full_name": "TreeService",
+          "mapping": {
+            "TreeService": {
+              "type": "text",
+              "analyzer": "autocomplete",
+              "search_analyzer": "standard"
+            }
+          }
+        },
+        "Arborist": {
+          "full_name": "Arborist",
+          "mapping": {
+            "Arborist": {
+              "type": "boolean"
+            }
+          }
+        },
+        "FirstName": {
+          "full_name": "FirstName",
+          "mapping": {
+            "FirstName": {
+              "type": "text",
+              "analyzer": "autocomplete",
+              "search_analyzer": "standard"
+            }
+          }
+        },
+        "_type": {
+          "full_name": "_type",
+          "mapping": {}
+        },
+        "Concerns": {
+          "full_name": "Concerns",
+          "mapping": {
+            "Concerns": {
+              "type": "text",
+              "analyzer": "autocomplete",
+              "search_analyzer": "standard"
+            }
+          }
+        },
+        "_field_names": {
+          "full_name": "_field_names",
+          "mapping": {}
+        },
+        "MainServices": {
+          "full_name": "MainServices",
+          "mapping": {
+            "MainServices": {
+              "type": "keyword"
+            }
+          }
+        },
+        "Emergency": {
+          "full_name": "Emergency",
+          "mapping": {
+            "Emergency": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+#### Generated Kibana Index-Pattern Object
+```json
+{
+	"_id": "job*",
+	"_index": ".kibana",
+	"_source": {
+		"title": "job*",
+		"fields": "[{\"name\":\"Arborist\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"ChippingOption\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"City\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"Cleanup\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"ClientFolderURL\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":true,\"doc_values\":false,\"searchable\":false,\"aggregatable\":false},{\"name\":\"ClientIPAddress\",\"type\":\"ip\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"CompAssoc\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"Concerns\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"DateRequested\",\"type\":\"date\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"Description\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"Email\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"Emergency\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"FirstName\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"GotPayment\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"LastName\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"LowestBid\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"MainServices\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"NeedsArborist\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"NeedsGrinding\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"NeedsSplitter\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"NeedsWoodGone\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"PhonePrimary\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"PhoneSecondary\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"Priority\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"ServiceType\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"SourceTracking\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"State\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"Status\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"Street\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"StumpGrinding\",\"type\":\"boolean\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"TaxCode\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"TaxRate\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"TreeJobFolderURL\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":true,\"doc_values\":false,\"searchable\":false,\"aggregatable\":false},{\"name\":\"TreeNumber\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"TreeService\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"UserAgent\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"WoodOption\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true,\"searchable\":true,\"aggregatable\":true},{\"name\":\"ZipCode\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"_id\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false,\"searchable\":false,\"aggregatable\":false},{\"name\":\"_index\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false,\"searchable\":false,\"aggregatable\":false},{\"name\":\"_score\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false,\"searchable\":false,\"aggregatable\":false},{\"name\":\"_source\",\"type\":\"_source\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false,\"searchable\":false,\"aggregatable\":false},{\"name\":\"_type\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false,\"searchable\":true,\"aggregatable\":true},{\"name\":\"script\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":true,\"doc_values\":false,\"searchable\":true,\"aggregatable\":false},{\"name\":\"script.keyword\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false,\"searchable\":false,\"aggregatable\":false}]",
+		"timeFieldName": "DateRequested"
+	},
+	"_type": "index-pattern"
+}
+```
+
 ### dashboard package
-Will generate kibana dashboard documents.  Requires two inputs a **skeleton** and **configuration yaml**.
+Will generate kibana dashboard kibanas.  Requires two inputs a **skeleton** and **configuration yaml**.
 
 #### Skeleton
 - is a visual representation of a kibana dashboard
@@ -112,7 +242,8 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
   id: count_snakebites
   type: visualization
 ```
-#### Panels JSON
+#### Generated Panels JSON 
+Notice that the skeleton and yaml combine to create this portion
 ```json
 [{
 	"col": 1,
@@ -176,7 +307,7 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 	"type": "visualization"
 }]
 ```
-#### Kibana Dashboard Object
+#### Generated Kibana Dashboard Object
 ```json
 {
 	"_id": "dashboard-noc2",
@@ -199,26 +330,30 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 #### As seen in Kibana
 ![exampleDash](http://i.imgur.com/ql115H7.png)
 
-### How-to
-#### Config
-- Edit dashSkeleton variable in main.go
-- Edit dashYamlz variable in main.go
+## Tested with
+- Elasticsearch 5.1.1 / Kibana 5.1.1
 
-#### Install
+## How-to
+### Config
+- edit /etc/app.yaml (house config for target elasticsearch server)
+- edit /etc/dashboard.skeleton  (dashboard widget layout)
+- edit /etc/dashboard.yaml (dashboard widget content)
+
+### Install
 ```sh
 $ go get gopkg.in/yaml.v2
 $ go build
 ```
-#### Run
+### Run
 ```sh
-$ ./dash
+$ dash
+$ dash -idx="job*" -timeField="DateRequested"
 ```
 
-### Todos
+## Todos
 - Move input out of code
 - Implement simplistic Visualization package
 - Implement simplistic Search package
-- Implement Index-Pattern package (generate dynamically based on index)
 - Buff up Dashboard, Visualization, Search package as needed
 - Store dashboard layouts + yaml in couchbase
 - Store visualization config in couchbase
@@ -226,6 +361,5 @@ $ ./dash
 - App to load objects into target elasticsearch server
 
 
-License
-----
+## License
 MIT

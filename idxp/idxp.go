@@ -1,17 +1,14 @@
 package idxp
 
 import (
+	"dash/elastic"
+	"encoding/json"
+	"fmt"
 	"sort"
 	"strings"
 )
 
 type (
-	Pattern struct {
-		Title         string `json:"title"`
-		Fields        string `json:"fields"`
-		TimeFieldName string `json:"timeFieldName"`
-	}
-
 	Fields []Field
 	Field  struct {
 		Name         string `json:"name"`
@@ -139,6 +136,63 @@ func (mapping Mapping) ToFields() (fields Fields, err error) {
 	fields = append(fields, Field{Name: "_score", Type: "number", Count: 0})
 
 	sort.Sort(fields)
+	return
+}
+
+func (fields Fields) ToDoc(index string, timeFieldName string) (doc elastic.Doc, err error) {
+	bytez, err := json.Marshal(fields)
+	if err != nil {
+		return
+	}
+
+	fieldsString := string(bytez)
+
+	source := elastic.KibanaSource{
+		Title:         index,
+		Fields:        fieldsString,
+		TimeFieldName: timeFieldName,
+	}
+
+	doc = elastic.Doc{
+		Index:  `.kibana`,
+		Type:   "index-pattern",
+		Id:     index,
+		Source: source,
+	}
+
+	return
+}
+
+func RenderDoc(index, timeFieldName string) (doc elastic.Doc, err error) {
+	data, err := elastic.GlobalClient.GetFieldMappings(elastic.Target{Index: index})
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	var mapping Mapping
+	err = json.Unmarshal(data, &mapping)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	fields, err := mapping.ToFields()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	doc, err = fields.ToDoc(index, timeFieldName)
+	if err != nil {
+		return
+	}
+
+	bytez, err := json.MarshalIndent(doc, "", "  ")
+	if err != nil {
+		return
+	}
+
+	fmt.Println(string(bytez))
 	return
 }
 
