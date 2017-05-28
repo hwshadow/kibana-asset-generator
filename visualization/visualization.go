@@ -1,23 +1,20 @@
 package visualization
 
 import (
-	"dash/document"
 	"fmt"
 )
 
 type (
-	VisualizationDocs []VisualizationDoc
-	VisualizationDoc  document.Doc
-	VisualizationMap  map[string]Visualizations
-	Visualizations    []Visualization
-	Visualization     struct {
+	VisualizationMap map[string]Visualizations
+	Visualizations   []Visualization
+	Visualization    struct {
 		Field string `json:"field,omitempty"`
 	}
 )
 
 func (widgetMap VisualizationMap) ToDocs() (docs VisualizationDocs, err error) {
 
-	// source := document.Source{
+	// source := kibana.Source{
 	// 	//		Title:       title,
 	// 	//		Description: description,
 	// 	UIStateJSON: `{"vis":{"params":{"sort":{"columnIndex":null,"direction":null}}}}`,

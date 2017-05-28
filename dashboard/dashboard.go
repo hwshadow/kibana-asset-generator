@@ -2,7 +2,7 @@ package dashboard
 
 import (
 	"bufio"
-	"dash/document"
+	"dash/elastic"
 	"encoding/json"
 	"fmt"
 	"regexp"
@@ -16,11 +16,9 @@ var layoutPattern *regexp.Regexp = regexp.MustCompile(`(?:[0-9]|_|=|\||\^|\<|\>)
 var numberPattern *regexp.Regexp = regexp.MustCompile(`[0-9]{2}`)
 
 type (
-	DashboardDocs []DashboardDoc
-	DashboardDoc  document.Doc
-	WidgetMap     map[string]Widget
-	Widgets       []Widget
-	Widget        struct {
+	WidgetMap map[string]Widget
+	Widgets   []Widget
+	Widget    struct {
 		Col        int      `json:"col"`
 		Columns    []string `json:"columns,omitempty"`
 		ID         string   `json:"id"`
@@ -43,10 +41,10 @@ func (s Widgets) Less(i, j int) bool {
 	return s[i].PanelIndex < s[j].PanelIndex
 }
 
-func Skeleton(layout string) (widgetMap WidgetMap, err error) {
+func Skeleton(layout []byte) (widgetMap WidgetMap, err error) {
 	widgetMap = make(WidgetMap, 0)
 	row := 1
-	scanner := bufio.NewScanner(strings.NewReader(layout))
+	scanner := bufio.NewScanner(strings.NewReader(string(layout)))
 	for scanner.Scan() {
 		line := scanner.Text()
 		if !layoutPattern.MatchString(line) {
@@ -177,10 +175,10 @@ func (widgetMap WidgetMap) ToPanels() (panels string, err error) {
 	return
 }
 
-func (widgetMap WidgetMap) ToDoc(title, description string) (doc DashboardDoc, err error) {
+func (widgetMap WidgetMap) ToDoc(title, description string) (doc elastic.Doc, err error) {
 
-	ksom := document.KSOM{
-		SearchSourceJSON: `{"filter":[{"query":{"query_string":{"query":"*","analyze_wildcard":true}}}]}`,
+	ksom := map[string]interface{}{
+		"searchSourceJSON": `{"filter":[{"query":{"query_string":{"query":"*","analyze_wildcard":true}}}]}`,
 	}
 
 	panels, err := widgetMap.ToPanels()
@@ -188,7 +186,7 @@ func (widgetMap WidgetMap) ToDoc(title, description string) (doc DashboardDoc, e
 		return
 	}
 
-	source := document.Source{
+	source := elastic.KibanaSource{
 		Title:                 title,
 		Description:           description,
 		PanelsJSON:            panels,
@@ -199,7 +197,7 @@ func (widgetMap WidgetMap) ToDoc(title, description string) (doc DashboardDoc, e
 		KibanaSavedObjectMeta: ksom,
 	}
 
-	doc = DashboardDoc{
+	doc = elastic.Doc{
 		Index:  `.kibana`,
 		Type:   "dashboard",
 		Id:     title,
@@ -209,13 +207,13 @@ func (widgetMap WidgetMap) ToDoc(title, description string) (doc DashboardDoc, e
 	return
 }
 
-func RenderDoc(name string, skeleton string, yaml string) (doc DashboardDoc, err error) {
+func RenderDoc(name string, skeleton []byte, yaml []byte) (doc elastic.Doc, err error) {
 	widgetMap, err := Skeleton(skeleton)
 	if err != nil {
 		return
 	}
 
-	err = widgetMap.Supplement([]byte(yaml))
+	err = widgetMap.Supplement(yaml)
 	if err != nil {
 		return
 	}
