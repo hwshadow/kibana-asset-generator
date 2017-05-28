@@ -646,7 +646,7 @@ $ dash
 $ dash -idx="job*" -timeField="DateRequested"
 ```
 
-### Todos
+# Todos
 - Move input out of code
 - Implement simplistic Visualization package
 - Implement simplistic Search package
@@ -657,6 +657,5 @@ $ dash -idx="job*" -timeField="DateRequested"
 - App to load objects into target elasticsearch server
 
 
-License
-----
+# License
 MIT
