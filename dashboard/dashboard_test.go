@@ -22,7 +22,7 @@ func TestSkeletonToWidgetMapMultiFormat5_1_1(t *testing.T) {
 		var expectedWidgetMap WidgetMap
 		err = json.Unmarshal([]byte(dashWidgetMapFrame), &expectedWidgetMap)
 		assert.Nil(err)
-		t.Log(expectedWidgetMap)
+		t.Log(dashWidgetMapFrame)
 		assert.Equal(expectedWidgetMap, widgetMap)
 	}
 
@@ -266,7 +266,7 @@ func TestWidgetMapToWidgets5_1_1(t *testing.T) {
 	err = json.Unmarshal([]byte(dashWidgets), &expectedWidgets)
 	assert.Nil(err)
 	sort.Sort(expectedWidgets)
-	t.Log(expectedWidgets)
+	t.Log(dashWidgets)
 	assert.Equal(expectedWidgets, widgets)
 
 	return

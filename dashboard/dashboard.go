@@ -12,8 +12,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var layoutPattern *regexp.Regexp = regexp.MustCompile(`^(?:[0-9]|_|=|\||\^|\<|\>){2}(?:\.(?:[0-9]|_|=|\||\^|\<|\>){2}){11}$`)
-var numberPattern *regexp.Regexp = regexp.MustCompile(`^[0-9]{2}$`)
+var layoutPattern *regexp.Regexp = regexp.MustCompile(`(?:[0-9]|_|=|\||\^|\<|\>){2}(?:\.(?:[0-9]|_|=|\||\^|\<|\>){2}){11}`)
+var numberPattern *regexp.Regexp = regexp.MustCompile(`[0-9]{2}`)
 
 type (
 	DashboardDocs []DashboardDoc
@@ -40,7 +40,7 @@ func (s Widgets) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 func (s Widgets) Less(i, j int) bool {
-	return s[i].ID < s[j].ID
+	return s[i].PanelIndex < s[j].PanelIndex
 }
 
 func Skeleton(layout string) (widgetMap WidgetMap, err error) {
@@ -58,11 +58,12 @@ func Skeleton(layout string) (widgetMap WidgetMap, err error) {
 		for column, part := range parts {
 			column += 1
 			if numberPattern.MatchString(part) {
+
 				if _, ok := widgetMap[part]; !ok {
-					widgetMap[part] = Widget{PanelIndex: (12*(row-1) + column), Col: column, Row: row, ID: part, SizeX: 1, SizeY: 1}
+					widgetMap[part] = Widget{PanelIndex: (12*(row-1) + column), Col: column, Row: row, ID: part}
 				} else {
 					widg := widgetMap[part]
-					if widg.SizeX != 1 || widg.SizeY != 1 {
+					if widg.SizeX != 0 || widg.SizeY != 0 {
 						err = fmt.Errorf("cannot have more than two points for selector '%s'", part)
 						return
 					}
@@ -114,8 +115,8 @@ func (widgetMap WidgetMap) Validate() (err error) {
 			return
 		}
 
-		if widget.Col <= 0 || widget.Col > 11 {
-			err = fmt.Errorf("%s's Col %d is not between 1 and 11 inclusively", key, widget.Col)
+		if widget.Col <= 0 || widget.Col > 12 {
+			err = fmt.Errorf("%s's Col %d is not between 1 and 12 inclusively", key, widget.Col)
 			return
 		}
 
@@ -129,13 +130,23 @@ func (widgetMap WidgetMap) Validate() (err error) {
 			return
 		}
 
+		if widget.SizeX == 0 {
+			err = fmt.Errorf("%s's SizeX %d must be non-zero", key, widget.SizeX)
+			return
+		}
+
+		if widget.SizeY == 0 {
+			err = fmt.Errorf("%s's SizeY %d must be non-zero", key, widget.SizeY)
+			return
+		}
+
 		if widget.SizeX+widget.Col > 13 {
 			err = fmt.Errorf("%s's SizeX %d plus Col index %d must be less than or equal %d", key, widget.SizeX, widget.Col, 13)
 			return
 		}
 
 		if numberPattern.MatchString(widget.ID) {
-			err = fmt.Errorf("%s's ID %s shouldn't remain a number, it should be descriptive", key, widget.ID)
+			err = fmt.Errorf("%s's ID %s should remain a number, it should be descriptive", key, widget.ID)
 			return
 		}
 	}
@@ -195,5 +206,35 @@ func (widgetMap WidgetMap) ToDoc(title, description string) (doc DashboardDoc, e
 		Source: source,
 	}
 
+	return
+}
+
+func RenderDoc(name string, skeleton string, yaml string) (doc DashboardDoc, err error) {
+	widgetMap, err := Skeleton(skeleton)
+	if err != nil {
+		return
+	}
+
+	err = widgetMap.Supplement([]byte(yaml))
+	if err != nil {
+		return
+	}
+
+	err = widgetMap.Validate()
+	if err != nil {
+		return
+	}
+
+	doc, err = widgetMap.ToDoc(name, "")
+	if err != nil {
+		return
+	}
+
+	bytez, err := json.MarshalIndent(doc, "", "  ")
+	if err != nil {
+		return
+	}
+
+	fmt.Println(string(bytez))
 	return
 }
