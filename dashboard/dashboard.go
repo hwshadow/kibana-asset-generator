@@ -6,12 +6,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
 	"gopkg.in/yaml.v2"
 )
 
-var layoutPattern *regexp.Regexp = regexp.MustCompile(`^(?:[0-9]|_|\||\^|\<){2}(?:\.(?:[0-9]|_|\||\^|\<){2}){11}$`)
+var layoutPattern *regexp.Regexp = regexp.MustCompile(`^(?:[0-9]|_|=|\||\^|\<|\>){2}(?:\.(?:[0-9]|_|=|\||\^|\<|\>){2}){11}$`)
 var numberPattern *regexp.Regexp = regexp.MustCompile(`^[0-9]{2}$`)
 
 type (
@@ -31,6 +32,16 @@ type (
 		Type       string   `json:"type"`
 	}
 )
+
+func (s Widgets) Len() int {
+	return len(s)
+}
+func (s Widgets) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+func (s Widgets) Less(i, j int) bool {
+	return s[i].ID < s[j].ID
+}
 
 func Skeleton(layout string) (widgetMap WidgetMap, err error) {
 	widgetMap = make(WidgetMap, 0)
@@ -137,6 +148,8 @@ func (widgetMap WidgetMap) ToArray() (widgets Widgets) {
 	for _, widget := range widgetMap {
 		widgets = append(widgets, widget)
 	}
+
+	sort.Sort(widgets)
 
 	return
 }
