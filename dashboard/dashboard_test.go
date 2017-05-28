@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFromSkeletonToWidgetMapMultiFormat5_1_1(t *testing.T) {
+func TestSkeletonToWidgetMapMultiFormat5_1_1(t *testing.T) {
 	assert := assert.New(t)
 	skeletons := []string{dash1Skeleton, dash2Skeleton, dash3Skeleton}
 	for _, skeleton := range skeletons {
@@ -29,7 +29,7 @@ func TestFromSkeletonToWidgetMapMultiFormat5_1_1(t *testing.T) {
 	return
 }
 
-func TestFromSkeletonToWidgetMapBadInput5_1_1(t *testing.T) {
+func TestSkeletonToWidgetMapBadInput5_1_1(t *testing.T) {
 	assert := assert.New(t)
 	skeletons := []string{dash4Skeleton, dash5Skeleton, dash6Skeleton, dash7Skeleton, dash8Skeleton}
 	for _, skeleton := range skeletons {
@@ -63,7 +63,194 @@ func TestEnrichWidgetMap5_1_1(t *testing.T) {
 	return
 }
 
-func TestFromWidgetMapToWidgets5_1_1(t *testing.T) {
+func TestValidateWidgetMap5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.Nil(err)
+
+	return
+}
+
+func TestValidateWidgetMapInvalidType5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["00"]
+	widget.Type = "motor"
+	widgetMap["00"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestValidateWidgetMapInvalidUseOfColumns5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["01"]
+	widget.Type = "visualization"
+	widgetMap["01"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestValidateWidgetMapInvalidUseOfSort5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["01"]
+	widget.Type = "visualization"
+	widget.Columns = nil
+	widgetMap["01"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestValidateWidgetMapColOutOfBounds5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["00"]
+	widget.Col = 13
+	widgetMap["00"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestValidateWidgetMapRowOutOfBounds5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["00"]
+	widget.Row = 0
+	widgetMap["00"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestValidateWidgetMapPanelIndexOutOfBounds5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["00"]
+	widget.PanelIndex = 0
+	widgetMap["00"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestValidateWidgetMapWidthOutOfBounds5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["00"]
+	widget.Col = 8
+	widget.SizeX = 8
+	widgetMap["00"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestValidateWidgetMapDescriptiveName5_1_1(t *testing.T) {
+	assert := assert.New(t)
+	t.Log(dashWidgetMapEnriched)
+	var widgetMap WidgetMap
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
+	assert.Nil(err)
+
+	widget := widgetMap["00"]
+	widget.ID = "00"
+	widgetMap["00"] = widget
+
+	bytez, err := json.Marshal(widgetMap)
+	assert.Nil(err)
+	t.Log(string(bytez))
+
+	err = widgetMap.Validate()
+	assert.NotNil(err)
+
+	return
+}
+
+func TestWidgetMapToWidgets5_1_1(t *testing.T) {
 	assert := assert.New(t)
 	t.Log(dashWidgetMapEnriched)
 	var widgetMap WidgetMap
