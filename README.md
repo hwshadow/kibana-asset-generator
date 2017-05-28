@@ -14,7 +14,7 @@ Will generate kibana dashboard documents.  Requires two inputs a **skeleton** an
 - each row is delimited by a newline, infinite rows are allowed
 - each column is delimited by a period ".", there are always exactly 12 columns in each row
 - a cell is valid if it contains a two-digit numeric, "__", "==", ">>", "<<", or "^^"
-- a cell holding "__", "==", ">>", "<<", or "^^" do not have any significant other than styling
+- a cell holding "__", "==", ">>", "<<", or "^^" do not hold any significance other than styling
 - a cell holding at two-digit numeric will serve as instructions for building a widget
    - first occurrence defines the top-left coordinate of a widget
    - second occurrence defines the bottom-right coordinate of a widget
