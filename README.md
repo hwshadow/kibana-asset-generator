@@ -629,18 +629,18 @@ Notice that the skeleton and yaml combine to create this portion
 # Tested with
 - Elasticsearch 5.1.1 / Kibana 5.1.1
 
-### How-to
-#### Config
+# How-to
+### Config
 - edit /etc/app.yaml (house config for target elasticsearch server)
 - edit /etc/dashboard.skeleton  (dashboard widget layout)
 - edit /etc/dashboard.yaml (dashboard widget content)
 
-#### Install
+### Install
 ```sh
 $ go get gopkg.in/yaml.v2
 $ go build
 ```
-#### Run
+### Run
 ```sh
 $ dash
 $ dash -idx="job*" -timeField="DateRequested"
