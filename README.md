@@ -137,7 +137,7 @@ http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
 ```
 
 ### dashboard package
-Will generate kibana dashboard kibanas.  Requires two inputs a **skeleton** and **configuration yaml**.
+Will generate kibana dashboard given two inputs a **skeleton** and **configuration yaml**.
 
 #### Skeleton
 - is a visual representation of a kibana dashboard
