@@ -21,6 +21,17 @@ Will generate kibana dashboard documents.  Requires two inputs a **skeleton** an
    - if only a single occurrence the widget will consume a 1x1 square
    - the numeric directly correlates to a dictionary key in the configuration yaml
 
+##### Empty board
+```
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+```
 ##### Style 1 (raw)
 ```
 00.__.__.__.__.20.__.01.__.__.__.__
