@@ -4,12 +4,12 @@ Got tired of configuring stuff via the kibana GUI ...  so we are going to hackab
   - You need to instantiate many instances of the same searches, visualizations, dashboards but for slightly different index names.  Wildcard index is not optimal for you.
   - You hate building dashboards in the GUI.
 
-
 # About
 ### idxp package
 Will pull an index's field mappings and translate that into the equivalent kibana  index-pattern.  Requires an index pattern, time field name, and also config for target to source mapping data and writing resulting index-pattern.
 
-#### Elastic mapping looks like
+#### Field mappings from elasticsearch
+http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
 ```json
 {
   "job": {
@@ -418,7 +418,7 @@ Will pull an index's field mappings and translate that into the equivalent kiban
   }
 }
 ```
-#### resulting kibana index-pattern looks like
+#### Generated Kibana Index-Pattern Object
 ```json
 {
 	"_id": "job*",
@@ -538,7 +538,8 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
   id: count_snakebites
   type: visualization
 ```
-#### Panels JSON
+#### Generated Panels JSON 
+Notice that the skeleton and yaml combine to create this portion
 ```json
 [{
 	"col": 1,
@@ -602,7 +603,7 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 	"type": "visualization"
 }]
 ```
-#### Kibana Dashboard Object
+#### Generated Kibana Dashboard Object
 ```json
 {
 	"_id": "dashboard-noc2",
@@ -624,6 +625,9 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 
 #### As seen in Kibana
 ![exampleDash](http://i.imgur.com/ql115H7.png)
+
+# Tested with
+- Elasticsearch 5.1.1 / Kibana 5.1.1
 
 ### How-to
 #### Config
