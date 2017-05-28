@@ -9,7 +9,7 @@ Got tired of configuring stuff via the kibana GUI ...  so we are going to hackab
 ### idxp package
 Will pull an index's field mappings and translate that into the equivalent kibana  index-pattern.  Requires an index pattern, time field name, and also config for target to source mapping data and writing resulting index-pattern.
 
-#### Elastic mapping looks linked
+#### Elastic mapping looks like
 ```json
 {
   "job": {
