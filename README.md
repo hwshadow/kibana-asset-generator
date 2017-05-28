@@ -351,14 +351,14 @@ $ dash -idx="job*" -timeField="DateRequested"
 ```
 
 ## Todos
-- Move input out of code
+https://github.com/hwshadow/kibana-asset-generator/projects/1
 - Implement simplistic Visualization package
 - Implement simplistic Search package
 - Buff up Dashboard, Visualization, Search package as needed
 - Store dashboard layouts + yaml in couchbase
 - Store visualization config in couchbase
 - Store search config in couchbase
-- App to load objects into target elasticsearch server
+- API to load objects into target elasticsearch server
 
 
 ## License
