@@ -13,14 +13,25 @@ Will generate kibana dashboard documents.  Requires two inputs a **skeleton** an
 - is a visual representation of a kibana dashboard
 - each row is delimited by a newline, infinite rows are allowed
 - each column is delimited by a period ".", there are always exactly 12 columns in each row
-- a cell is valid if it contains a two-digit numeric, "__", "||", "<<", or "^^"
-- a cell holding "__", "||", "<<", or "^^" do not have any significants other than styling
-- a cell holding at two-digit numeric will serve as instructions for builing a widget
-   - first occurance defines the top-left coordinate of a widget
-   - second occurance defines the bottom-right coordinate of a widget
-   - if only a single occurance the widget will consume a 1x1 square
+- a cell is valid if it contains a two-digit numeric, "__", "||", "==", ">>", "<<", or "^^"
+- a cell holding "__", "||", "==", ">>", "<<", or "^^" do not hold any significance other than styling
+- a cell holding at two-digit numeric will serve as instructions for building a widget
+   - first occurrence defines the top-left coordinate of a widget
+   - second occurrence defines the bottom-right coordinate of a widget
+   - if only a single occurrence the widget will consume a 1x1 square
    - the numeric directly correlates to a dictionary key in the configuration yaml
 
+##### Empty board
+```
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+__.__.__.__.__.__.__.__.__.__.__.__
+```
 ##### Style 1 (raw)
 ```
 00.__.__.__.__.20.__.01.__.__.__.__
@@ -101,8 +112,71 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
   id: count_snakebites
   type: visualization
 ```
-
-#### Output JSON
+#### Panels JSON
+```json
+[{
+	"col": 1,
+	"id": "sick_vs_nasty",
+	"panelIndex": 1,
+	"row": 1,
+	"size_x": 5,
+	"size_y": 4,
+	"type": "visualization"
+}, {
+	"col": 8,
+	"columns": ["sick", "nasty"],
+	"id": "state_of_the world",
+	"panelIndex": 8,
+	"row": 1,
+	"size_x": 5,
+	"size_y": 4,
+	"sort": ["size"],
+	"type": "search"
+}, {
+	"col": 1,
+	"id": "age_ratios",
+	"panelIndex": 49,
+	"row": 5,
+	"size_x": 5,
+	"size_y": 4,
+	"type": "visualization"
+}, {
+	"col": 8,
+	"columns": ["first_name", "last_name"],
+	"id": "people",
+	"panelIndex": 56,
+	"row": 5,
+	"size_x": 5,
+	"size_y": 4,
+	"sort": ["age"],
+	"type": "search"
+}, {
+	"col": 6,
+	"id": "count_nasty",
+	"panelIndex": 6,
+	"row": 1,
+	"size_x": 2,
+	"size_y": 4,
+	"type": "visualization"
+}, {
+	"col": 6,
+	"id": "count_size",
+	"panelIndex": 54,
+	"row": 5,
+	"size_x": 2,
+	"size_y": 2,
+	"type": "visualization"
+}, {
+	"col": 6,
+	"id": "count_snakebites",
+	"panelIndex": 78,
+	"row": 7,
+	"size_x": 2,
+	"size_y": 2,
+	"type": "visualization"
+}]
+```
+#### Kibana Dashboard Object
 ```json
 {
 	"_id": "dashboard-noc2",
