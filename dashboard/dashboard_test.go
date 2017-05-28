@@ -20,7 +20,7 @@ func TestFromSkeletonToWidgetMapMultiFormat5_1_1(t *testing.T) {
 		t.Log(string(bytez))
 
 		var expectedWidgetMap WidgetMap
-		err = json.Unmarshal([]byte(dashWidgetsFrame), &expectedWidgetMap)
+		err = json.Unmarshal([]byte(dashWidgetMapFrame), &expectedWidgetMap)
 		assert.Nil(err)
 		t.Log(expectedWidgetMap)
 		assert.Equal(expectedWidgetMap, widgetMap)
@@ -43,9 +43,9 @@ func TestFromSkeletonToWidgetMapBadInput5_1_1(t *testing.T) {
 
 func TestEnrichWidgetMap5_1_1(t *testing.T) {
 	assert := assert.New(t)
-	t.Log(dashWidgetsFrame)
+	t.Log(dashWidgetMapFrame)
 	var widgetMap WidgetMap
-	err := json.Unmarshal([]byte(dashWidgetsFrame), &widgetMap)
+	err := json.Unmarshal([]byte(dashWidgetMapFrame), &widgetMap)
 	assert.Nil(err)
 	err = widgetMap.Supplement([]byte(dashYamlz))
 	assert.Nil(err)
@@ -55,7 +55,7 @@ func TestEnrichWidgetMap5_1_1(t *testing.T) {
 	t.Log(string(bytez))
 
 	var expectedWidgetMap WidgetMap
-	err = json.Unmarshal([]byte(dashWidgetsEnriched), &expectedWidgetMap)
+	err = json.Unmarshal([]byte(dashWidgetMapEnriched), &expectedWidgetMap)
 	assert.Nil(err)
 	t.Log(expectedWidgetMap)
 	assert.Equal(expectedWidgetMap, widgetMap)
@@ -65,9 +65,9 @@ func TestEnrichWidgetMap5_1_1(t *testing.T) {
 
 func TestFromWidgetMapToWidgets5_1_1(t *testing.T) {
 	assert := assert.New(t)
-	t.Log(dashWidgetsEnriched)
+	t.Log(dashWidgetMapEnriched)
 	var widgetMap WidgetMap
-	err := json.Unmarshal([]byte(dashWidgetsEnriched), &widgetMap)
+	err := json.Unmarshal([]byte(dashWidgetMapEnriched), &widgetMap)
 	assert.Nil(err)
 	widgets := widgetMap.ToArray()
 
@@ -85,9 +85,9 @@ func TestFromWidgetMapToWidgets5_1_1(t *testing.T) {
 	return
 }
 
-var dashWidgetsFrame string = `{"00":{"col":1,"id":"00","panelIndex":1,"row":1,"size_x":5,"size_y":4,"type":""},"01":{"col":8,"id":"01","panelIndex":8,"row":1,"size_x":5,"size_y":4,"type":""},"02":{"col":1,"id":"02","panelIndex":49,"row":5,"size_x":5,"size_y":4,"type":""},"03":{"col":8,"id":"03","panelIndex":56,"row":5,"size_x":5,"size_y":4,"type":""},"20":{"col":6,"id":"20","panelIndex":6,"row":1,"size_x":2,"size_y":4,"type":""},"21":{"col":6,"id":"21","panelIndex":54,"row":5,"size_x":2,"size_y":2,"type":""},"22":{"col":6,"id":"22","panelIndex":78,"row":7,"size_x":2,"size_y":2,"type":""}}`
+var dashWidgetMapFrame string = `{"00":{"col":1,"id":"00","panelIndex":1,"row":1,"size_x":5,"size_y":4,"type":""},"01":{"col":8,"id":"01","panelIndex":8,"row":1,"size_x":5,"size_y":4,"type":""},"02":{"col":1,"id":"02","panelIndex":49,"row":5,"size_x":5,"size_y":4,"type":""},"03":{"col":8,"id":"03","panelIndex":56,"row":5,"size_x":5,"size_y":4,"type":""},"20":{"col":6,"id":"20","panelIndex":6,"row":1,"size_x":2,"size_y":4,"type":""},"21":{"col":6,"id":"21","panelIndex":54,"row":5,"size_x":2,"size_y":2,"type":""},"22":{"col":6,"id":"22","panelIndex":78,"row":7,"size_x":2,"size_y":2,"type":""}}`
 
-var dashWidgetsEnriched = `{"00":{"col":1,"id":"sick_vs_nasty","panelIndex":1,"row":1,"size_x":5,"size_y":4,"type":"visualization"},"01":{"col":8,"columns":["sick","nasty"],"id":"state_of_the world","panelIndex":8,"row":1,"size_x":5,"size_y":4,"sort":["size"],"type":"search"},"02":{"col":1,"id":"age_ratios","panelIndex":49,"row":5,"size_x":5,"size_y":4,"type":"visualization"},"03":{"col":8,"columns":["first_name","last_name"],"id":"people","panelIndex":56,"row":5,"size_x":5,"size_y":4,"sort":["age"],"type":"search"},"20":{"col":6,"id":"count_nasty","panelIndex":6,"row":1,"size_x":2,"size_y":4,"type":"visualization"},"21":{"col":6,"id":"count_size","panelIndex":54,"row":5,"size_x":2,"size_y":2,"type":"visualization"},"22":{"col":6,"id":"count_snakebites","panelIndex":78,"row":7,"size_x":2,"size_y":2,"type":"visualization"}}`
+var dashWidgetMapEnriched = `{"00":{"col":1,"id":"sick_vs_nasty","panelIndex":1,"row":1,"size_x":5,"size_y":4,"type":"visualization"},"01":{"col":8,"columns":["sick","nasty"],"id":"state_of_the world","panelIndex":8,"row":1,"size_x":5,"size_y":4,"sort":["size"],"type":"search"},"02":{"col":1,"id":"age_ratios","panelIndex":49,"row":5,"size_x":5,"size_y":4,"type":"visualization"},"03":{"col":8,"columns":["first_name","last_name"],"id":"people","panelIndex":56,"row":5,"size_x":5,"size_y":4,"sort":["age"],"type":"search"},"20":{"col":6,"id":"count_nasty","panelIndex":6,"row":1,"size_x":2,"size_y":4,"type":"visualization"},"21":{"col":6,"id":"count_size","panelIndex":54,"row":5,"size_x":2,"size_y":2,"type":"visualization"},"22":{"col":6,"id":"count_snakebites","panelIndex":78,"row":7,"size_x":2,"size_y":2,"type":"visualization"}}`
 
 var dashWidgets = `[{"col":1,"id":"sick_vs_nasty","panelIndex":1,"row":1,"size_x":5,"size_y":4,"type":"visualization"},{"col":8,"columns":["sick","nasty"],"id":"state_of_the world","panelIndex":8,"row":1,"size_x":5,"size_y":4,"sort":["size"],"type":"search"},{"col":1,"id":"age_ratios","panelIndex":49,"row":5,"size_x":5,"size_y":4,"type":"visualization"},{"col":8,"columns":["first_name","last_name"],"id":"people","panelIndex":56,"row":5,"size_x":5,"size_y":4,"sort":["age"],"type":"search"},{"col":6,"id":"count_nasty","panelIndex":6,"row":1,"size_x":2,"size_y":4,"type":"visualization"},{"col":6,"id":"count_size","panelIndex":54,"row":5,"size_x":2,"size_y":2,"type":"visualization"},{"col":6,"id":"count_snakebites","panelIndex":78,"row":7,"size_x":2,"size_y":2,"type":"visualization"}]`
 
