@@ -136,8 +136,94 @@ http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
 }
 ```
 
+### searches package
+Will generate kibana searches.  Requires a single input **configuration yaml**.
+
+#### Configuration Yaml
+```json
+---
+- title: people
+  columns:
+  - ClientIPAddress
+  - FirstName
+  - LastName
+  - Email
+  - PhonePrimary
+  - Street
+  - City
+  - _id
+  sort:
+  - DateRequested
+  - desc
+  query: "*"
+- title: rocketship
+  columns:
+  - sick
+  - nasty
+  sort:
+  - size
+  - desc
+  query: _type:search AND NOT json:"how meta" AND _id:testing
+  filters:
+  - key: sick
+    value: kinda
+  - key: sick
+    value: hardcore
+    negate: true
+```
+
+#### Generated Kibana Search Objects
+```json
+[
+  {
+    "_id": "testing-people",
+    "_index": ".kibana",
+    "_source": {
+      "title": "testing-people",
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"jo*\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      },
+      "columns": [
+        "ClientIPAddress",
+        "FirstName",
+        "LastName",
+        "Email",
+        "PhonePrimary",
+        "Street",
+        "City",
+        "_id"
+      ],
+      "sort": [
+        "DateRequested",
+        "desc"
+      ]
+    },
+    "_type": "search"
+  },
+  {
+    "_id": "testing-rocketship",
+    "_index": ".kibana",
+    "_source": {
+      "title": "testing-rocketship",
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"jo*\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"_type:search AND NOT json:\\\"how meta\\\" AND _id:testing\"}},\"filter\":[{\"meta\":{\"key\":\"sick\",\"value\":\"kinda\"},\"query\":{\"match\":{\"sick\":{\"query\":\"kinda\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"key\":\"sick\",\"value\":\"hardcore\"},\"query\":{\"match\":{\"sick\":{\"query\":\"hardcore\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}]}"
+      },
+      "columns": [
+        "sick",
+        "nasty"
+      ],
+      "sort": [
+        "size",
+        "desc"
+      ]
+    },
+    "_type": "search"
+  }
+]
+```
+
 ### dashboard package
-Will generate kibana dashboard given two inputs a **skeleton** and **configuration yaml**.
+Will generate a kibana dashboard.  Requires two inputs a **skeleton** and **configuration yaml**.
 
 #### Skeleton
 - is a visual representation of a kibana dashboard
@@ -228,10 +314,17 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
   id: people
   type: search
   columns:
-   - first_name
-   - last_name
+  - ClientIPAddress
+  - FirstName
+  - LastName
+  - Email
+  - PhonePrimary
+  - Street
+  - City
+  - _id
   sort:
-   - age
+  - DateRequested
+  - desc
 20:
   id: count_nasty
   type: visualization
@@ -241,8 +334,9 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 22:
   id: count_snakebites
   type: visualization
+
 ```
-#### Generated Panels JSON 
+#### Generated Panels JSON
 Notice that the skeleton and yaml combine to create this portion
 ```json
 [{
@@ -330,30 +424,37 @@ Notice that the skeleton and yaml combine to create this portion
 #### As seen in Kibana
 ![exampleDash](http://i.imgur.com/ql115H7.png)
 
-## Tested with
-- Elasticsearch 5.1.1 / Kibana 5.1.1
-
-## How-to
-### Config
+### How-to
+#### Config
 - edit /etc/app.yaml (house config for target elasticsearch server)
 - edit /etc/dashboard.skeleton  (dashboard widget layout)
 - edit /etc/dashboard.yaml (dashboard widget content)
+- edit /etc/search.yaml (search content)
+
+### Tested with
+- Elasticsearch 5.1.1 / Kibana 5.1.1
 
 ### Install
 ```sh
 $ go get gopkg.in/yaml.v2
 $ go build
 ```
-### Run
+#### Run dry with no connection to elastic
 ```sh
 $ dash
-$ dash -idx="job*" -timeField="DateRequested"
+```
+#### Run dry with connection to elastic
+```sh
+$ dash -idx=".kibana"
+```
+#### Run with connection to elastic and writes enabled
+```sh
+$ dash -write=true -pre="testing-" -idx="jo*" -timeField="DateRequested"
 ```
 
 ## Todos
 https://github.com/hwshadow/kibana-asset-generator/projects/1
 - Implement simplistic Visualization package
-- Implement simplistic Search package
 - Buff up Dashboard, Visualization, Search package as needed
 - Store dashboard layouts + yaml in couchbase
 - Store visualization config in couchbase

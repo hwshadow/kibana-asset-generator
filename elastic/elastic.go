@@ -40,8 +40,8 @@ type KibanaSource struct {
 	Description string `json:"description,omitempty"`
 	Version     int    `json:"version,omitempty"`
 	UIStateJSON string `json:"uiStateJSON,omitempty"`
-	// Optional
-	KibanaSavedObjectMeta map[string]interface{} `json:"kibanaSavedObjectMeta,omitempty"`
+	// Optional / Search
+	KibanaSavedObjectMeta interface{} `json:"kibanaSavedObjectMeta,omitempty"`
 	// Dashboard
 	OptionsJSON string `json:"optionsJSON,omitempty"`
 	PanelsJSON  string `json:"panelsJSON,omitempty"`
@@ -49,6 +49,9 @@ type KibanaSource struct {
 	// Visualizations
 	VisState      string `json:"visState,omitempty"`
 	SavedSearchId string `json:"savedSearchId,omitempty"`
+	// Search
+	Columns []string `json:"columns,omitempty"`
+	Sort    []string `json:"sort,omitempty"`
 	// Index-Pattern
 	Fields        string `json:"fields,omitempty"`
 	TimeFieldName string `json:"timeFieldName,omitempty"`
@@ -95,20 +98,32 @@ func (client *Client) GetFieldMappings(tar Target) (body []byte, err error) {
 	return
 }
 
-func (client *Client) SaveIndexPattern(tar Target, pattern interface{}) (err error) {
+func (doc Doc) Save() (err error) {
+	target := Target{doc.Index, doc.Type, doc.Id}
+
 	var url bytes.Buffer
-	err = CREATE_DOC_TEMPLATE.Execute(&url, tar)
+	err = CREATE_DOC_TEMPLATE.Execute(&url, target)
 	if err != nil {
 		return
 	}
-	bytez, err := json.Marshal(pattern)
+	bytez, err := json.Marshal(doc.Source)
 	if err != nil {
 		return
 	}
-	address, err := client.GetServerAddress()
+	address, err := GlobalClient.GetServerAddress()
 	if err != nil {
 		return
 	}
 	_, err = http.Post(address+url.String(), "text/json", bytes.NewBuffer(bytez))
+	return
+}
+
+func (docs Docs) Save() (err error) {
+	for _, doc := range docs {
+		err = doc.Save()
+		if err != nil {
+			return
+		}
+	}
 	return
 }

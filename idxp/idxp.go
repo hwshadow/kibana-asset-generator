@@ -43,12 +43,18 @@ func (s Fields) Less(i, j int) bool {
 
 func (mapping Mapping) ToFields() (fields Fields, err error) {
 	fields = make(Fields, 0)
+	alreadyEncountered := make(map[string]bool)
 
 	for _, indexContent := range mapping {
 		//indexName
 		for _, typeContent := range indexContent["mappings"] {
 			//typeName
 			for fieldName, mappingWrap := range typeContent {
+				if _, yes := alreadyEncountered[fieldName]; yes {
+					continue
+				}
+				alreadyEncountered[fieldName] = true
+
 				field := Field{Name: fieldName, Count: 0}
 				foundType := false
 				foundIndex := false
@@ -148,9 +154,12 @@ func (fields Fields) ToDoc(index string, timeFieldName string) (doc elastic.Doc,
 	fieldsString := string(bytez)
 
 	source := elastic.KibanaSource{
-		Title:         index,
-		Fields:        fieldsString,
-		TimeFieldName: timeFieldName,
+		Title:  index,
+		Fields: fieldsString,
+	}
+
+	if timeFieldName != "" {
+		source.TimeFieldName = timeFieldName
 	}
 
 	doc = elastic.Doc{

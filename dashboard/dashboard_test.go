@@ -47,7 +47,7 @@ func TestEnrichWidgetMap5_1_1(t *testing.T) {
 	var widgetMap WidgetMap
 	err := json.Unmarshal([]byte(dashWidgetMapFrame), &widgetMap)
 	assert.Nil(err)
-	err = widgetMap.Supplement([]byte(dashYamlz))
+	err = widgetMap.Supplement("", []byte(dashYamlz))
 	assert.Nil(err)
 
 	bytez, err := json.Marshal(widgetMap)

@@ -77,7 +77,7 @@ func Skeleton(layout []byte) (widgetMap WidgetMap, err error) {
 	return
 }
 
-func (widgetMap WidgetMap) Supplement(yml []byte) (err error) {
+func (widgetMap WidgetMap) Supplement(prefix string, yml []byte) (err error) {
 	supplements := make(WidgetMap, 0)
 	err = yaml.Unmarshal(yml, &supplements)
 	if err != nil {
@@ -86,7 +86,7 @@ func (widgetMap WidgetMap) Supplement(yml []byte) (err error) {
 
 	for key, supplement := range supplements {
 		if widg, ok := widgetMap[key]; ok {
-			widg.ID = supplement.ID
+			widg.ID = prefix + supplement.ID
 			widg.Type = supplement.Type
 			widg.Columns = supplement.Columns
 			widg.Sort = supplement.Sort
@@ -175,8 +175,7 @@ func (widgetMap WidgetMap) ToPanels() (panels string, err error) {
 	return
 }
 
-func (widgetMap WidgetMap) ToDoc(title, description string) (doc elastic.Doc, err error) {
-
+func (widgetMap WidgetMap) ToDoc(title, prefix, description string) (doc elastic.Doc, err error) {
 	ksom := map[string]interface{}{
 		"searchSourceJSON": `{"filter":[{"query":{"query_string":{"query":"*","analyze_wildcard":true}}}]}`,
 	}
@@ -187,7 +186,7 @@ func (widgetMap WidgetMap) ToDoc(title, description string) (doc elastic.Doc, er
 	}
 
 	source := elastic.KibanaSource{
-		Title:                 title,
+		Title:                 prefix + title,
 		Description:           description,
 		PanelsJSON:            panels,
 		OptionsJSON:           `{"darkTheme":true}`,
@@ -200,20 +199,20 @@ func (widgetMap WidgetMap) ToDoc(title, description string) (doc elastic.Doc, er
 	doc = elastic.Doc{
 		Index:  `.kibana`,
 		Type:   "dashboard",
-		Id:     title,
+		Id:     source.Title,
 		Source: source,
 	}
 
 	return
 }
 
-func RenderDoc(name string, skeleton []byte, yaml []byte) (doc elastic.Doc, err error) {
+func RenderDoc(name, prefix string, skeleton, yaml []byte) (doc elastic.Doc, err error) {
 	widgetMap, err := Skeleton(skeleton)
 	if err != nil {
 		return
 	}
 
-	err = widgetMap.Supplement(yaml)
+	err = widgetMap.Supplement(prefix, yaml)
 	if err != nil {
 		return
 	}
@@ -223,7 +222,7 @@ func RenderDoc(name string, skeleton []byte, yaml []byte) (doc elastic.Doc, err 
 		return
 	}
 
-	doc, err = widgetMap.ToDoc(name, "")
+	doc, err = widgetMap.ToDoc(name, prefix, "")
 	if err != nil {
 		return
 	}

@@ -16,10 +16,17 @@
   id: people
   type: search
   columns:
-   - first_name
-   - last_name
+  - ClientIPAddress
+  - FirstName
+  - LastName
+  - Email
+  - PhonePrimary
+  - Street
+  - City
+  - _id
   sort:
-   - age
+  - DateRequested
+  - desc
 20:
   id: count_nasty
   type: visualization
