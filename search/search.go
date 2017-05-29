@@ -13,7 +13,7 @@ type Search struct {
 	Title       string   `json:"title"`
 	Columns     []string `json:"columns"`
 	Sort        []string `json:"sort"`
-	QueryString string   `json:"query",yaml:"query"`
+	QueryString string   `yaml:"query",json:"query"`
 	Filters     Filters  `json:"filters"`
 }
 
@@ -48,7 +48,7 @@ func Import(yml []byte) (searches Searches, err error) {
 func (search Search) ToDoc(index, prefix string) (doc elastic.Doc) {
 	query_string := map[string]map[string]interface{}{
 		"query_string": map[string]interface{}{
-			"query":            "*",
+			"query":            search.QueryString,
 			"analyze_wildcard": true,
 		}}
 

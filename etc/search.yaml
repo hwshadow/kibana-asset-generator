@@ -12,7 +12,7 @@
   sort:
   - DateRequested
   - desc
-  query: "_exists_:_id"
+  query: "*"
 - title: rocketship
   columns:
   - sick
