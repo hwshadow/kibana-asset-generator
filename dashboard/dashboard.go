@@ -176,7 +176,6 @@ func (widgetMap WidgetMap) ToPanels() (panels string, err error) {
 }
 
 func (widgetMap WidgetMap) ToDoc(title, prefix, description string) (doc elastic.Doc, err error) {
-
 	ksom := map[string]interface{}{
 		"searchSourceJSON": `{"filter":[{"query":{"query_string":{"query":"*","analyze_wildcard":true}}}]}`,
 	}
