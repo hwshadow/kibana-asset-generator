@@ -93,7 +93,7 @@ func (search Search) ToDoc(index, prefix string) (doc elastic.Doc) {
 	doc = elastic.Doc{
 		Index:  `.kibana`,
 		Type:   "search",
-		Id:     prefix + search.Title + "-search",
+		Id:     source.Title,
 		Source: source,
 	}
 
