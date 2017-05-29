@@ -184,262 +184,6 @@ Will pull an index's field mappings and translate that into the equivalent kiban
             }
           }
         },
-        "TreeService": {
-          "full_name": "TreeService",
-          "mapping": {
-            "TreeService": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "Arborist": {
-          "full_name": "Arborist",
-          "mapping": {
-            "Arborist": {
-              "type": "boolean"
-            }
-          }
-        },
-        "ServiceType": {
-          "full_name": "ServiceType",
-          "mapping": {
-            "ServiceType": {
-              "type": "keyword"
-            }
-          }
-        },
-        "LowestBid": {
-          "full_name": "LowestBid",
-          "mapping": {
-            "LowestBid": {
-              "type": "float"
-            }
-          }
-        },
-        "NeedsWoodGone": {
-          "full_name": "NeedsWoodGone",
-          "mapping": {
-            "NeedsWoodGone": {
-              "type": "boolean"
-            }
-          }
-        },
-        "Street": {
-          "full_name": "Street",
-          "mapping": {
-            "Street": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "_timestamp": {
-          "full_name": "_timestamp",
-          "mapping": {}
-        },
-        "_version": {
-          "full_name": "_version",
-          "mapping": {}
-        },
-        "GotPayment": {
-          "full_name": "GotPayment",
-          "mapping": {
-            "GotPayment": {
-              "type": "boolean"
-            }
-          }
-        },
-        "_routing": {
-          "full_name": "_routing",
-          "mapping": {}
-        },
-        "Status": {
-          "full_name": "Status",
-          "mapping": {
-            "Status": {
-              "type": "keyword"
-            }
-          }
-        },
-        "Priority": {
-          "full_name": "Priority",
-          "mapping": {
-            "Priority": {
-              "type": "boolean"
-            }
-          }
-        },
-        "SourceTracking": {
-          "full_name": "SourceTracking",
-          "mapping": {
-            "SourceTracking": {
-              "type": "keyword"
-            }
-          }
-        },
-        "City": {
-          "full_name": "City",
-          "mapping": {
-            "City": {
-              "type": "keyword"
-            }
-          }
-        },
-        "PhonePrimary": {
-          "full_name": "PhonePrimary",
-          "mapping": {
-            "PhonePrimary": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "script": {
-          "full_name": "script",
-          "mapping": {
-            "script": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "type": "keyword",
-                  "ignore_above": 256
-                }
-              }
-            }
-          }
-        },
-        "State": {
-          "full_name": "State",
-          "mapping": {
-            "State": {
-              "type": "keyword"
-            }
-          }
-        },
-        "ClientFolderURL": {
-          "full_name": "ClientFolderURL",
-          "mapping": {
-            "ClientFolderURL": {
-              "type": "text",
-              "index": false
-            }
-          }
-        },
-        "_source": {
-          "full_name": "_source",
-          "mapping": {}
-        },
-        "_id": {
-          "full_name": "_id",
-          "mapping": {}
-        },
-        "LastName": {
-          "full_name": "LastName",
-          "mapping": {
-            "LastName": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "StumpGrinding": {
-          "full_name": "StumpGrinding",
-          "mapping": {
-            "StumpGrinding": {
-              "type": "boolean"
-            }
-          }
-        },
-        "_uid": {
-          "full_name": "_uid",
-          "mapping": {}
-        },
-        "WoodOption": {
-          "full_name": "WoodOption",
-          "mapping": {
-            "WoodOption": {
-              "type": "keyword"
-            }
-          }
-        },
-        "PhoneSecondary": {
-          "full_name": "PhoneSecondary",
-          "mapping": {
-            "PhoneSecondary": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "Description": {
-          "full_name": "Description",
-          "mapping": {
-            "Description": {
-              "type": "text",
-              "analyzer": "autocomplete",
-              "search_analyzer": "standard"
-            }
-          }
-        },
-        "_index": {
-          "full_name": "_index",
-          "mapping": {}
-        },
-        "DateRequested": {
-          "full_name": "DateRequested",
-          "mapping": {
-            "DateRequested": {
-              "type": "date"
-            }
-          }
-        },
-        "NeedsSplitter": {
-          "full_name": "NeedsSplitter",
-          "mapping": {
-            "NeedsSplitter": {
-              "type": "boolean"
-            }
-          }
-        },
-        "ClientIPAddress": {
-          "full_name": "ClientIPAddress",
-          "mapping": {
-            "ClientIPAddress": {
-              "type": "ip",
-              "ignore_malformed": true
-            }
-          }
-        },
-        "Cleanup": {
-          "full_name": "Cleanup",
-          "mapping": {
-            "Cleanup": {
-              "type": "boolean"
-            }
-          }
-        },
-        "_all": {
-          "full_name": "_all",
-          "mapping": {}
-        },
-        "_parent": {
-          "full_name": "_parent",
-          "mapping": {}
-        },
-        "TaxCode": {
-          "full_name": "TaxCode",
-          "mapping": {
-            "TaxCode": {
-              "type": "short"
-            }
-          }
-        },
         "UserAgent": {
           "full_name": "UserAgent",
           "mapping": {
@@ -563,6 +307,92 @@ Will pull an index's field mappings and translate that into the equivalent kiban
 }
 ```
 
+### searches package
+Will generate kibana searches.  Requires a single input **configuration yaml**.
+
+#### Configuration Yaml
+```json
+---
+- title: people
+  columns:
+  - ClientIPAddress
+  - FirstName
+  - LastName
+  - Email
+  - PhonePrimary
+  - Street
+  - City
+  - _id
+  sort:
+  - DateRequested
+  - desc
+  query: "*"
+- title: rocketship
+  columns:
+  - sick
+  - nasty
+  sort:
+  - size
+  - desc
+  query: _type:search AND NOT json:"how meta" AND _id:testing
+  filters:
+  - key: sick
+    value: kinda
+  - key: sick
+    value: hardcore
+    negate: true
+```
+
+#### Generated Kibana Search Objects
+```json
+[
+  {
+    "_id": "testing-people",
+    "_index": ".kibana",
+    "_source": {
+      "title": "testing-people",
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"jo*\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      },
+      "columns": [
+        "ClientIPAddress",
+        "FirstName",
+        "LastName",
+        "Email",
+        "PhonePrimary",
+        "Street",
+        "City",
+        "_id"
+      ],
+      "sort": [
+        "DateRequested",
+        "desc"
+      ]
+    },
+    "_type": "search"
+  },
+  {
+    "_id": "testing-rocketship",
+    "_index": ".kibana",
+    "_source": {
+      "title": "testing-rocketship",
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"jo*\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"_type:search AND NOT json:\\\"how meta\\\" AND _id:testing\"}},\"filter\":[{\"meta\":{\"key\":\"sick\",\"value\":\"kinda\"},\"query\":{\"match\":{\"sick\":{\"query\":\"kinda\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"key\":\"sick\",\"value\":\"hardcore\"},\"query\":{\"match\":{\"sick\":{\"query\":\"hardcore\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}]}"
+      },
+      "columns": [
+        "sick",
+        "nasty"
+      ],
+      "sort": [
+        "size",
+        "desc"
+      ]
+    },
+    "_type": "search"
+  }
+]
+```
+
 ### dashboard package
 Will generate a kibana dashboard.  Requires two inputs a **skeleton** and **configuration yaml**.
 
@@ -655,10 +485,17 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
   id: people
   type: search
   columns:
-   - first_name
-   - last_name
+  - ClientIPAddress
+  - FirstName
+  - LastName
+  - Email
+  - PhonePrimary
+  - Street
+  - City
+  - _id
   sort:
-   - age
+  - DateRequested
+  - desc
 20:
   id: count_nasty
   type: visualization
@@ -668,6 +505,7 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 22:
   id: count_snakebites
   type: visualization
+
 ```
 #### Generated Panels JSON
 Notice that the skeleton and yaml combine to create this portion
@@ -772,10 +610,16 @@ Notice that the skeleton and yaml combine to create this portion
 $ go get gopkg.in/yaml.v2
 $ go build
 ```
-### Run
+#### Run dry with no connection to elastic
 ```sh
 $ dash
+```
+#### Run dry with connection to elastic
+```sh
 $ dash -idx=".kibana"
+```
+#### Run with connection to elastic and writes enabled
+```sh
 $ dash -write=true -pre="testing-" -idx="jo*" -timeField="DateRequested"
 ```
 
