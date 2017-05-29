@@ -630,6 +630,7 @@ The yaml config indicates what each widget is to become/linked to.  Valid entrie
 - edit /etc/app.yaml (house config for target elasticsearch server)
 - edit /etc/dashboard.skeleton  (dashboard widget layout)
 - edit /etc/dashboard.yaml (dashboard widget content)
+- edit /etc/search.yaml (search content)
 
 #### Install
 ```sh
@@ -639,13 +640,13 @@ $ go build
 #### Run
 ```sh
 $ dash
-$ dash -idx="job*" -timeField="DateRequested"
+$ dash -idx=".kibana"
+$ dash -write=true -pre="testing-" -idx="jo*" -timeField="DateRequested"
 ```
 
 ### Todos
 - Move input out of code
 - Implement simplistic Visualization package
-- Implement simplistic Search package
 - Buff up Dashboard, Visualization, Search package as needed
 - Store dashboard layouts + yaml in couchbase
 - Store visualization config in couchbase

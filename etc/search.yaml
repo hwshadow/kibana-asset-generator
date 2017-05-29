@@ -1,0 +1,29 @@
+---
+- title: people
+  columns:
+  - ClientIPAddress
+  - FirstName
+  - LastName
+  - Email
+  - PhonePrimary
+  - Street
+  - City
+  - _id
+  sort:
+  - DateRequested
+  - desc
+  query: "_exists_:_id"
+- title: rocketship
+  columns:
+  - sick
+  - nasty
+  sort:
+  - size
+  - desc
+  query: _type:search AND NOT json:"how meta" AND _id:testing
+  filters:
+  - key: sick
+    value: kinda
+  - key: sick
+    value: hardcore
+    negate: true
