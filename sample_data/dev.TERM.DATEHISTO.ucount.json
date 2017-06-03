@@ -1,0 +1,54 @@
+{
+  "title": "dev.TERM.DATEHISTO.ucount",
+  "type": "histogram",
+  "params": {
+    "shareYAxis": true,
+    "addTooltip": true,
+    "addLegend": true,
+    "legendPosition": "right",
+    "scale": "linear",
+    "mode": "stacked",
+    "times": [],
+    "addTimeMarker": false,
+    "defaultYExtents": false,
+    "setYExtents": false,
+    "yAxis": {}
+  },
+  "aggs": [
+    {
+      "id": "1",
+      "enabled": true,
+      "type": "cardinality",
+      "schema": "metric",
+      "params": {
+        "field": "ChippingOption"
+      }
+    },
+    {
+      "id": "3",
+      "enabled": true,
+      "type": "terms",
+      "schema": "group",
+      "params": {
+        "field": "City",
+        "size": 5,
+        "order": "desc",
+        "orderBy": "1"
+      }
+    },
+    {
+      "id": "2",
+      "enabled": true,
+      "type": "date_histogram",
+      "schema": "segment",
+      "params": {
+        "field": "DateRequested",
+        "interval": "auto",
+        "customInterval": "2h",
+        "min_doc_count": 1,
+        "extended_bounds": {}
+      }
+    }
+  ],
+  "listeners": {}
+}
