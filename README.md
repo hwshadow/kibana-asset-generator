@@ -441,15 +441,15 @@ $ go build
 ```
 #### Run dry with no connection to elastic
 ```sh
-$ dash
+$ dash -ops="ds"
 ```
 #### Run dry with connection to elastic
 ```sh
-$ dash -idx=".kibana"
+$ dash -index=".kibana" -ops="dis"
 ```
 #### Run with connection to elastic and writes enabled
 ```sh
-$ dash -write=true -pre="testing-" -idx="jo*" -timeField="DateRequested"
+$ dash -write=true -ops="dis" -prefix="testing-" -index="jo*" -timeField="DateRequested"
 ```
 
 ## Todos

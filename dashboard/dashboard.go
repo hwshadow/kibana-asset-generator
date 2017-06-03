@@ -197,7 +197,7 @@ func (widgetMap WidgetMap) ToDoc(title, prefix, description string) (doc elastic
 	}
 
 	doc = elastic.Doc{
-		Index:  `.kibana`,
+		Index:  elastic.GlobalClient.KibanaIndex,
 		Type:   "dashboard",
 		Id:     source.Title,
 		Source: source,
