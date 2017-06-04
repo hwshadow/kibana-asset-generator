@@ -1,0 +1,4 @@
+---
+All: *
+Seattle: Seattle OR seatle
+Not Seattle: NOT Seattle AND NOT seatle

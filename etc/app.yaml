@@ -1,3 +1,4 @@
+---
 proto: http
 host: localhost
 port: 9200

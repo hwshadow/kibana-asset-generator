@@ -1,16 +1,16 @@
 ---
 People Count:
-  search: Records
+  query: all
   type: metric
   metrics:
   - count{"fontSize": 60}
 Unique Cities:
-  search: Records
+  query: all
   type: metric
   metrics:
   - cardinality(City){"fontSize": 60}
 Seattle or Not by Requested:
-  search: Records
+  query: all
   type: histogram
   metrics:
   - count

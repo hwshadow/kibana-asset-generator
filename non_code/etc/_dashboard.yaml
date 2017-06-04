@@ -1,0 +1,21 @@
+---
+20:
+  title: People Count
+21:
+  title: Unique Cities
+00:
+  title: Seattle or Not by Requested
+01:
+  title: Records
+  columns:
+    - ClientIPAddress
+    - FirstName
+    - LastName
+    - Email
+    - PhonePrimary
+    - Street
+    - City
+    - _id
+  sort:
+    - DateRequested
+    - desc
