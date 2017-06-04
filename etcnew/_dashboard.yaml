@@ -1,0 +1,25 @@
+---
+age_ratios: ~
+count_nasty: ~
+count_size: ~
+count_snakebites: ~
+people:
+  columns:
+    - ClientIPAddress
+    - FirstName
+    - LastName
+    - Email
+    - PhonePrimary
+    - Street
+    - City
+    - _id
+  sort:
+    - DateRequested
+    - desc
+sick_vs_nasty: ~
+state_of_the world:
+  columns:
+    - sick
+    - nasty
+  sort:
+    - size

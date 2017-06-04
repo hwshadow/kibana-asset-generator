@@ -1,72 +1,60 @@
 package visualization
 
-import (
-	"fmt"
+type (
+	Visualizations []Visualization
+	Visualization  struct {
+		Title  string
+		Type   string
+		Params map[string]interface{}
+		Aggs   Aggs
+	}
+
+	Aggs []Agg
+	Agg  struct {
+		Id      string
+		Enabled bool
+		Type    string
+		Schema  string
+		Params  map[string]interface{}
+	}
+
+	Definition struct {
+		Title      string
+		Type       string
+		Metrics    Metrics
+		Partitions Partitions
+	}
+
+	Metrics    []Metric
+	Metric     string
+	Partitions []Partition
+	Partition  string
 )
 
-type (
-	VisualizationMap map[string]Visualizations
-	Visualizations   []Visualization
-	Visualization    struct {
-		Field string `json:"field,omitempty"`
+const PatternViews string = `^([a-z]+)(?:<([^<>\[]+)>)?(?:\(([^()]+)\))?(?:\[([^\[\]]+)\])?(?:({.*}))?$`
+
+var (
+	HistogramSchemaLookup map[string]string = map[string]string{
+		"x":     "segment",
+		"slice": "group",
+		"chart": "split",
+	}
+
+	TableSchemaLookup map[string]string = map[string]string{
+		"slice": "bucket",
+		"chart": "split",
+	}
+
+	AcceptableMetricTypes []string = []string{
+		"count",
+		"cardinality"
+		"max",
+		"avg",
+	}
+
+	AcceptablePartitionTypes []string = []string{
+		"date_histogram",
+		"filters",
+		"terms",
 	}
 )
-
-func (widgetMap VisualizationMap) ToDocs() (docs VisualizationDocs, err error) {
-
-	// source := kibana.Source{
-	// 	//		Title:       title,
-	// 	//		Description: description,
-	// 	UIStateJSON: `{"vis":{"params":{"sort":{"columnIndex":null,"direction":null}}}}`,
-	// 	Version:     1,
-	// }
-	//
-	// doc = VisualizationDoc{
-	// 	Index: `.kibana`,
-	// 	Type:  "visualization",
-	// 	//		Id:     title,
-	// 	Source: source,
-	// }
-
-	return
-}
-
-func tableTerms(field string, size, perPage int) (visState string) {
-	visState = fmt.Sprintf(tableTermsF, field, field, size, perPage)
-	return
-}
-
-var tableTermsF string = `{
-	"title": "%s-table_terms_count",
-	"type": "table",
-	"params": {
-		"perPage": %d,
-		"showPartialRows": false,
-		"showMeticsAtAllLevels": false,
-		"sort": {
-			"columnIndex": 0,
-			"direction": "desc"
-		},
-		"showTotal": false,
-		"totalFunc": "sum"
-	},
-	"aggs": [{
-		"id": "count",
-		"enabled": true,
-		"type": "count",
-		"schema": "metric",
-		"params": {}
-	}, {
-		"id": "table",
-		"enabled": true,
-		"type": "terms",
-		"schema": "bucket",
-		"params": {
-			"field": "%s",
-			"size": %d,
-			"order": "desc",
-			"orderBy": "count"
-		}
-	}],
-	"listeners": {}
-}`

@@ -1,0 +1,18 @@
+Count of People:
+  search: Records
+  type: metric
+  metrics:
+  - count{"fontSize": 60}
+Count of Unique Cities:
+  search: Records
+  type: metric
+  metrics:
+  - cardinality(City){"fontSize": 60}
+Count of Unique Cities:
+  search: Records
+  type: histogram
+  metrics:
+  - count
+  partitions:
+    - date_histogram<x>(DateRequested)
+    - filters<slice>[all]

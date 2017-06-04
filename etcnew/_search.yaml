@@ -1,0 +1,19 @@
+---
+Records:
+  columns:
+  - ClientIPAddress
+  - FirstName
+  - LastName
+  - Email
+  - PhonePrimary
+  - Street
+  - City
+  - _id
+  sort:
+  - DateRequested
+  - desc
+  query: all
+  filters:
+  - key: LastName
+    value: not real
+    negate: true
