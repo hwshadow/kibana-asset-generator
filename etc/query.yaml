@@ -1,4 +1,13 @@
+---
 all:
  lucene: *
  label: all
  color: #FFFFFF
+seattle:
+ lucene: Seattle OR seatle
+ label: Seattle
+ color: #C2C2C2
+not seattle:
+ lucene: NOT Seattle AND NOT seatle
+ label: Seattle
+ color: #C2C2C2
