@@ -1,0 +1,48 @@
+{
+  "template": "testdata.dnd",
+  "order": 10,
+  "mappings": {
+    "job": {
+      "dynamic_templates": [
+        {
+          "date": {
+            "mapping": {
+              "type": "date",
+              "Format": "strict_date_optional_time"
+            },
+            "path_match": "^dob$",
+            "match_pattern": "regex"
+          }
+        },
+        {
+          "integer": {
+            "mapping": {
+              "type": "long"
+            },
+            "path_match": "^age|level$",
+            "match_pattern": "regex"
+          }
+        },
+        {
+          "double": {
+            "mapping": {
+              "type": "double"
+            },
+            "match": "^coin$",
+            "match_pattern": "regex"
+          }
+        },
+        {
+          "tokens": {
+            "mapping": {
+              "index": "not_analyzed",
+              "type": "string"
+            },
+            "path_match": "^race|race*$",
+            "match_pattern": "regex"
+          }
+        }
+      ]
+    }
+  }
+}
