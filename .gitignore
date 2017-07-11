@@ -1,1 +1,5 @@
 *.exe
+.DS_Store
+bin
+pkg
+vendor/src

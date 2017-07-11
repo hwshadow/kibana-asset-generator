@@ -1,11 +1,12 @@
 package search
 
 import (
-	"dash/elastic"
 	"encoding/json"
 	"fmt"
 
 	yaml "gopkg.in/yaml.v2"
+
+	"elastic"
 )
 
 type Searches []Search

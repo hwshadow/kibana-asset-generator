@@ -1,11 +1,12 @@
 package idxp
 
 import (
-	"dash/elastic"
 	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
+
+	"elastic"
 )
 
 type (

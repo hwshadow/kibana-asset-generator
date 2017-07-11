@@ -2,7 +2,6 @@ package dashboard
 
 import (
 	"bufio"
-	"dash/elastic"
 	"encoding/json"
 	"fmt"
 	"regexp"
@@ -10,6 +9,8 @@ import (
 	"strings"
 
 	"gopkg.in/yaml.v2"
+
+	"elastic"
 )
 
 var layoutPattern *regexp.Regexp = regexp.MustCompile(`(?:[0-9]|_|=|\||\^|\<|\>){2}(?:\.(?:[0-9]|_|=|\||\^|\<|\>){2}){11}`)

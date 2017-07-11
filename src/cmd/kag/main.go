@@ -1,13 +1,14 @@
 package main
 
 import (
-	"dash/dashboard"
-	"dash/elastic"
-	"dash/idxp"
-	"dash/search"
 	"flag"
 	"fmt"
 	"io/ioutil"
+
+	"dashboard"
+	"elastic"
+	"idxp"
+	"search"
 )
 
 func main() {
