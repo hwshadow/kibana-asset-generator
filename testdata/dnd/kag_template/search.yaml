@@ -27,9 +27,9 @@
   - age
   - desc
   query: age:<=30
-  # filters:
-  # - key: sex
-  #   value: female
-  # - key: race
-  #   value: tiefling
-  #   negate: true
+  filters:
+  - key: sex
+    value: female
+  - key: race
+    value: tiefling
+    negate: true

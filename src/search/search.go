@@ -20,12 +20,12 @@ type Search struct {
 
 type Filters []Filter
 type Filter struct {
-	Negate   bool   `json:"negate,omitempty"`
-	Index    string `json:"index,omitempty"`
-	Key      string `json:"key"`
-	Value    string `json:"value"`
-	Disabled bool   `json:"disabled,omitempty"`
-	Alias    string `json:"alias,omitempty"`
+	Negate   bool        `json:"negate"`
+	Index    string      `json:"index"`
+	Key      string      `json:"key"`
+	Value    string      `json:"value"`
+	Disabled bool        `json:"disabled"`
+	Alias    interface{} `json:"alias"`
 }
 
 type KSOMFilters []KSOMFilter
@@ -55,6 +55,8 @@ func (search Search) ToDoc(index, prefix string) (doc elastic.Doc) {
 
 	ksomfilters := make([]KSOMFilter, 0)
 	for _, filterMeta := range search.Filters {
+		filterMeta.Alias = nil
+		filterMeta.Index = index
 		filter_query := map[string]map[string]map[string]interface{}{
 			"match": map[string]map[string]interface{}{
 				filterMeta.Key: map[string]interface{}{
