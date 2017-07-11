@@ -1,0 +1,45 @@
+01:
+  id: characters-all
+  type: search
+  columns:
+  - first_name
+  - last_name
+  - race
+  - class
+  - age
+  - level
+  - coin
+  - city
+  - backstory
+  - dob
+  - _id
+  sort:
+  - race
+  - asc
+03:
+  id: female-thirty-or-under-not-tiefling
+  type: search
+  columns:
+  - first_name
+  - last_name
+  - race
+  - class
+  - age
+  sort:
+  - age
+  - desc
+00:
+  id: sick_vs_nasty
+  type: visualization
+02:
+  id: age_ratios
+  type: visualization
+20:
+  id: count_nasty
+  type: visualization
+21:
+  id: count_size
+  type: visualization
+22:
+  id: count_snakebites
+  type: visualization

@@ -2,7 +2,7 @@
   "template": "testdata.dnd",
   "order": 10,
   "mappings": {
-    "job": {
+    "testdata": {
       "dynamic_templates": [
         {
           "date": {
@@ -26,7 +26,7 @@
         {
           "double": {
             "mapping": {
-              "type": "double"
+              "type": "float"
             },
             "match": "^coin$",
             "match_pattern": "regex"
@@ -35,10 +35,22 @@
         {
           "tokens": {
             "mapping": {
+              "analyzer": "keyword",
               "index": "not_analyzed",
               "type": "string"
             },
-            "path_match": "^race|race*$",
+            "path_match": "^race|class$",
+            "match_pattern": "regex"
+          }
+        },
+        {
+          "terms": {
+            "mapping": {
+              "analyzer":"standard",
+              "index": "analyzed",
+              "type": "string"
+            },
+            "path_match": "^backstory$",
             "match_pattern": "regex"
           }
         }
