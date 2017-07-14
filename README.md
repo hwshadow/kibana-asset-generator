@@ -4,7 +4,7 @@ Got tired of configuring stuff via the kibana GUI ...  so we are going to hackab
   - You need to instantiate many instances of the same searches, visualizations, dashboards but for slightly different index names.  Wildcard index is not optimal for you.
   - You hate building dashboards in the GUI.
 
-Current builds
+Currently generates
   - Index Patterns
   - Searches
   - Dashboards
@@ -21,35 +21,35 @@ https://github.com/hwshadow/kibana-asset-generator/projects/1
   - API to load objects into target elasticsearch server
   - Abstract templates into a database?
 
-## How-to
-### Test
+
+## Testing
 Made super easy with docker.
 
-#### Get docker
+### Get docker
 https://docs.docker.com/engine/installation/
 
-#### (Optionally) tweak the template information
+### (Optionally) tweak the template information
 ```sh
 $ ls ./testdata/dnd/kag_template
 ```
 
-#### Run the bootstrap script
+### Run the bootstrap script
 ```sh
 $ ./dev/bootstrap.sh
 ```
 
-#### Browse to kibana
+### Browse to kibana
 http://localhost:5601/ to enjoy
 
 
-### Build
+## Build
 My preference is to use inside a docker container, but if so desired you can build locally.
 
-#### From container
-##### Get docker
+### From container
+#### Get docker
 https://docs.docker.com/engine/installation/
 
-##### Build inside a container
+#### Build inside a container
 ```sh
 $ cd ./dev/
 $ docker-compose run build-alpine-kag sh -c 'gb vendor restore && gb build'
@@ -59,29 +59,29 @@ By default we build against alpine.
 Build behavior can be changed to target debian by using 'build-debian-kag'
 Or any other distribution following the pattern in docker-compose.yml
 
-#### Locally
-##### Get the gb build tool
+### Locally
+#### Get the gb build tool
 https://getgb.io/docs/install/
 ```sh
 $ go get github.com/constabulary/gb/...
 ```
 
-##### Build local
+#### Build local
 ```sh
 $ gb vendor restore && gb build
 $ ls ./bin/kag
 ```
 
-### Usage
-#### Run dry with no connection to elastic
+## Usage
+### Run dry with no connection to elastic
 ```sh
 $ kag -conf="/etc/app.yaml" -template="/etc/" -ops="ids"
 ```
-#### Run dry with connection to elastic
+### Run dry with connection to elastic
 ```sh
 $ kag -conf="/etc/app.yaml" -template="/etc/" -ops="ids" -index="testdata.dnd"
 ```
-#### Run dry with connection to elastic only generate searches
+### Run dry with connection to elastic only generate searches
 ```sh
 $ kag -conf="/etc/app.yaml" -template="/etc/" -ops="s" -index="testdata.dnd"
 ```
