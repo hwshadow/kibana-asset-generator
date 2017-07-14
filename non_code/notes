@@ -1,0 +1,35 @@
+"type"<"schema">("field")["list"]
+type:
+- filters
+- terms
+schema: (?histogram)cut=group|(?histogram)x=segement|(?table|histogram)chart=split|(?table|histogram)cut=bucket
+view with only [] is implied to be of type filters
+view with only () is implied to be of type terms
+
+
+
+all or nothing:
+  search: string
+  metrics:
+  - count
+  - cardinality(City){"fontSize": 60}
+  - avg(LowestBid){"fontSize": 60}
+  - max(LowestBid){"fontSize": 60}
+  - percentiles(LowestBid)[1,3,20,100]{"fontSize": 60}
+  partitions:
+  - date_histogram<x>(DateRequested)
+  - filters<x>[all]
+  - filters<slice>[all]
+  - filters<chart>[all]
+  - terms<x>(City)
+  - terms<slice>(City)
+  - terms<chart>(City)
+
+
+
+
+  queries:
+   all:
+    query: *
+    label: all
+    color: #FFFFFF

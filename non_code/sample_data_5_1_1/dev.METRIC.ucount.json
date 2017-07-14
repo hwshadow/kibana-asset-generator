@@ -1,0 +1,20 @@
+{
+  "title": "dev.METRIC.ucount",
+  "type": "metric",
+  "params": {
+    "handleNoResults": true,
+    "fontSize": 60
+  },
+  "aggs": [
+    {
+      "id": "1",
+      "enabled": true,
+      "type": "cardinality",
+      "schema": "metric",
+      "params": {
+        "field": "ClientIPAddress"
+      }
+    }
+  ],
+  "listeners": {}
+}

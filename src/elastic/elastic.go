@@ -58,14 +58,15 @@ type KibanaSource struct {
 }
 
 type Client struct {
-	Proto string
-	Host  string
-	Port  string
+	Proto       string
+	Host        string
+	Port        string
+	KibanaIndex string `yaml:"kibana_index"`
 }
 
-func (client *Client) GetServerAddress() (server string, err error) {
+func GetServerAddress() (server string, err error) {
 	var serv bytes.Buffer
-	err = HOST_TEMPLATE.Execute(&serv, client)
+	err = HOST_TEMPLATE.Execute(&serv, GlobalClient)
 	if err != nil {
 		return
 	}
@@ -73,19 +74,19 @@ func (client *Client) GetServerAddress() (server string, err error) {
 	return
 }
 
-func CreateClient(config []byte) (client *Client, err error) {
-	client = &Client{}
-	err = yaml.Unmarshal(config, client)
+func InitClient(config []byte) (err error) {
+	GlobalClient = &Client{}
+	err = yaml.Unmarshal(config, GlobalClient)
 	return
 }
 
-func (client *Client) GetFieldMappings(tar Target) (body []byte, err error) {
+func GetFieldMappings(tar Target) (body []byte, err error) {
 	var url bytes.Buffer
 	err = FIELD_MAPPINGS_TEMPLATE.Execute(&url, tar)
 	if err != nil {
 		return
 	}
-	address, err := client.GetServerAddress()
+	address, err := GetServerAddress()
 	if err != nil {
 		return
 	}
@@ -110,7 +111,7 @@ func (doc Doc) Save() (err error) {
 	if err != nil {
 		return
 	}
-	address, err := GlobalClient.GetServerAddress()
+	address, err := GetServerAddress()
 	if err != nil {
 		return
 	}

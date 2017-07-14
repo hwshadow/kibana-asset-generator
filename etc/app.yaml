@@ -1,3 +1,5 @@
+---
 proto: http
 host: elastic-kag
 port: 9200
+kibana_index: .kibana

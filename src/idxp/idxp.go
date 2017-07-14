@@ -164,7 +164,7 @@ func (fields Fields) ToDoc(index string, timeFieldName string) (doc elastic.Doc,
 	}
 
 	doc = elastic.Doc{
-		Index:  `.kibana`,
+		Index:  elastic.GlobalClient.KibanaIndex,
 		Type:   "index-pattern",
 		Id:     index,
 		Source: source,
@@ -174,7 +174,7 @@ func (fields Fields) ToDoc(index string, timeFieldName string) (doc elastic.Doc,
 }
 
 func RenderDoc(index, timeFieldName string) (doc elastic.Doc, err error) {
-	data, err := elastic.GlobalClient.GetFieldMappings(elastic.Target{Index: index})
+	data, err := elastic.GetFieldMappings(elastic.Target{Index: index})
 	if err != nil {
 		fmt.Println(err.Error())
 		return

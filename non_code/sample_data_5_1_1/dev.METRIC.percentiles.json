@@ -1,0 +1,29 @@
+{
+  "title": "dev.METRIC.percentiles",
+  "type": "metric",
+  "params": {
+    "handleNoResults": true,
+    "fontSize": 60
+  },
+  "aggs": [
+    {
+      "id": "1",
+      "enabled": true,
+      "type": "percentiles",
+      "schema": "metric",
+      "params": {
+        "field": "TreeNumber",
+        "percents": [
+          1,
+          5,
+          25,
+          50,
+          75,
+          95,
+          99
+        ]
+      }
+    }
+  ],
+  "listeners": {}
+}
