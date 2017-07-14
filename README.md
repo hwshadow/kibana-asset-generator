@@ -657,7 +657,3 @@ Notice that the skeleton and yaml combine to create this portion
 
 #### As seen in Kibana
 ![exampleDash](http://i.imgur.com/ql115H7.png)
-
-
-## License
-MIT
