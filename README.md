@@ -92,7 +92,7 @@ $ kag -conf="/etc/app.yaml" -template="./kag_template/" -ops="ids" -index="testd
 
 ## About
 ### idxp package
-Will pull an index's field mappings and translate that into the equivalent kibana  index-pattern.  Requires an index pattern, time field name, and also config for target to source mapping data and writing resulting index-pattern.
+Will pull an index's field mappings and translate that into the equivalent kibana  index-pattern.  Requires an index pattern, time field name, and also config for target es host to source mapping data from and write resulting index-pattern to.
 
 #### Field mappings from elasticsearch
 http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
@@ -320,9 +320,9 @@ http://localhost:9200/job*/_mapping/*/field/*?include_defaults=false
 ```
 
 ### searches package
-Will generate kibana searches.  Requires a single input **configuration yaml**.
+Will generate kibana searches.  Requires a single input: **search yaml**.
 
-#### Configuration Yaml
+#### Search Yaml
 ```json
 ---
 - title: characters-all
@@ -420,9 +420,9 @@ Will generate kibana searches.  Requires a single input **configuration yaml**.
 ```
 
 ### dashboard package
-Will generate a kibana dashboard.  Requires two inputs a **skeleton** and **configuration yaml**.
+Will generate a kibana dashboard.  Requires two inputs: a **dashboard skeleton** and **dashboard yaml**.
 
-#### Skeleton
+#### Dashboard Skeleton
 - is a visual representation of a kibana dashboard
 - each row is delimited by a newline, infinite rows are allowed
 - each column is delimited by a period ".", there are always exactly 12 columns in each row
@@ -479,7 +479,7 @@ __.__.__.__.02.__.22.__.__.__.__.03
 <<.==.==.==.02.<<.22.==.==.==.==.03
 ```
 
-#### Configuration Yaml
+#### Dashboard Yaml
 The yaml config indicates what each widget is to become/linked to.  Valid entries are:
 - *id*: name of a saved visualization or search
 - *type*: "visualization" or "search"
