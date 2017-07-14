@@ -1,0 +1,4 @@
+---
+All: *
+AgeThirtyUnder: age:<=30
+AgeOverThirty: age:>30

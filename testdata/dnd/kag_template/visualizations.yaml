@@ -1,0 +1,19 @@
+---
+Character count:
+  query: All
+  type: metric
+  metrics:
+  - count{"fontSize": 60}
+Unique race:
+  query: All
+  type: metric
+  metrics:
+  - cardinality(race){"fontSize": 60}
+DOB by ageline:
+  query: All
+  type: histogram
+  metrics:
+  - count
+  partitions:
+    - date_histogram<x>(dob)
+    - filters<slice>[AgeThirtyUnder,AgeOverThirty]
