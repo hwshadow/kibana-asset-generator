@@ -1,15 +1,13 @@
-"type"<"schema">("field")["list"]
 type:
 - filters
 - terms
+
+"type"<"schema">("field")["list"]
 schema: (?histogram)cut=group|(?histogram)x=segement|(?table|histogram)chart=split|(?table|histogram)cut=bucket
 view with only [] is implied to be of type filters
 view with only () is implied to be of type terms
 
 
-
-all or nothing:
-  search: string
   metrics:
   - count
   - cardinality(City){"fontSize": 60}
@@ -27,9 +25,24 @@ all or nothing:
 
 
 
+###QUERY.YAML
+all:
+  query: *
+  label: all
+  color: #FFFFFF
+female:
+  query: sex:female
+  label: all
+  color: #F22222
 
-  queries:
-   all:
-    query: *
-    label: all
-    color: #FFFFFF
+###VIZUALIZATION.YAML
+count of female:
+  query: female
+  metrics:
+  - count
+character by race across dob:
+  query: all
+  partitons:
+  - date_histogram<x>(dob)
+  - terms<slice>(race)
+
