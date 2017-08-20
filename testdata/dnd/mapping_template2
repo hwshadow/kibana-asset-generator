@@ -33,13 +33,24 @@
           }
         },
         {
+          "tokens": {
+            "mapping": {
+              "analyzer": "keyword",
+              "index": "not_analyzed",
+              "type": "string"
+            },
+            "path_match": "^race|class|(first|last)_name|sex$",
+            "match_pattern": "regex"
+          }
+        },
+        {
           "terms": {
             "mapping": {
               "analyzer":"standard",
               "index": "analyzed",
               "type": "string"
             },
-            "path_match": "^backstory|race|class|(first|last)_name|sex$",
+            "path_match": "^backstory$",
             "match_pattern": "regex"
           }
         }

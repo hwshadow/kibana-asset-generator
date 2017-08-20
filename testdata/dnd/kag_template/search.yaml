@@ -16,6 +16,40 @@
   - race
   - asc
   query: "*"
+- title: characters-female
+  columns:
+  - first_name
+  - last_name
+  - race
+  - class
+  - age
+  - level
+  - coin
+  - city
+  - backstory
+  - dob
+  - _id
+  sort:
+  - race
+  - asc
+  query: "sex:female"
+- title: characters-male
+  columns:
+  - first_name
+  - last_name
+  - race
+  - class
+  - age
+  - level
+  - coin
+  - city
+  - backstory
+  - dob
+  - _id
+  sort:
+  - race
+  - asc
+  query: "sex:male"
 - title: female-thirty-or-under-not-tiefling
   columns:
   - first_name

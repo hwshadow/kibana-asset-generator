@@ -29,17 +29,20 @@
   - age
   - desc
 00:
-  id: character age across dob histo
+  id: character-by-race
   type: visualization
 02:
-  id: character age across dob table
+  id: character-dob-race
   type: visualization
 20:
-  id: count_snakebites
+  id: character-race-origins
+  type: visualization
+30:
+  id: unique-race-count
   type: visualization
 21:
-  id: count of male
+  id: male-count
   type: visualization
 22:
-  id: count of female
+  id: female-count
   type: visualization
