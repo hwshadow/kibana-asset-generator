@@ -29,10 +29,10 @@
   - age
   - desc
 00:
-  id: character-by-race
+  id: character-race
   type: visualization
 02:
-  id: character-dob-race
+  id: character-race-dob
   type: visualization
 20:
   id: character-race-origins

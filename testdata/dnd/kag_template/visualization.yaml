@@ -21,7 +21,7 @@
   - count
   partitions:
   - terms<slice>(race)
-- title: character-dob-race
+- title: character-race-dob
   query: characters-all
   type: histogram
   metrics:
