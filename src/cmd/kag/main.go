@@ -10,6 +10,7 @@ import (
 	"elastic"
 	"idxp"
 	"search"
+	"visualization"
 )
 
 func main() {
@@ -38,7 +39,7 @@ func main() {
 	}
 
 	var indexPatternDoc, dashboardDoc elastic.Doc
-	var searchDocs elastic.Docs
+	var searchDocs, visualizationDocs elastic.Docs
 
 	if flagIndex != "" {
 		if strings.Contains(flagOperations, "i") {
@@ -59,6 +60,21 @@ func main() {
 			}
 
 			searchDocs, err = search.RenderDocs(flagIndex, flagPrefix, searchYamlBytes)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+		}
+
+		if strings.Contains(flagOperations, "v") {
+			//VISUALIZATION
+			visualizationYamlBytes, err := ioutil.ReadFile(flagTemplatePath + "visualization.yaml")
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			visualizationDocs, err = visualization.RenderDocs(flagIndex, flagPrefix, visualizationYamlBytes)
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -97,6 +113,13 @@ func main() {
 
 		if strings.Contains(flagOperations, "s") {
 			err = searchDocs.Save()
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+		}
+		if strings.Contains(flagOperations, "v") {
+			err = visualizationDocs.Save()
 			if err != nil {
 				fmt.Println(err.Error())
 				return

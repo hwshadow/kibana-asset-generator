@@ -29,17 +29,17 @@
   - age
   - desc
 00:
-  id: sick_vs_nasty
+  id: character age across dob histo
   type: visualization
 02:
-  id: age_ratios
+  id: character age across dob table
   type: visualization
 20:
-  id: count_nasty
+  id: count_snakebites
   type: visualization
 21:
-  id: count_size
+  id: count of male
   type: visualization
 22:
-  id: count_snakebites
+  id: count of female
   type: visualization

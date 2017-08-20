@@ -16,5 +16,5 @@ fi
 printf "\n\nLoading dnd dataset\n"
 while read json; do curl -sk http://elastic-kag:9200/testdata.dnd/testdata/ -d "$json"; done < ./documents
 printf "\n\nExecuting KAG with dnd templates\n"
-../../bin/kag -template="./kag_template/" -write=true -ops="isd" -dashTitle="dash" -prefix="testdata-dnd-" -index="testdata.dnd" -timeField="dob"
+../../bin/kag -template="./kag_template/" -write=true -ops="isvd" -dashTitle="dash" -prefix="testdata-dnd-" -index="testdata.dnd" -timeField="dob"
 curl -sk http://elastic-kag:920/_cat/indices

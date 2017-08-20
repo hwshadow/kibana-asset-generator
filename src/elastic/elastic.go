@@ -38,7 +38,7 @@ type KibanaSource struct {
 	// Common
 	Title       string `json:"title"`
 	Description string `json:"description,omitempty"`
-	Version     int    `json:"version,omitempty"`
+	//Version     int    `json:"version,omitempty"`
 	UIStateJSON string `json:"uiStateJSON,omitempty"`
 	// Optional / Search
 	KibanaSavedObjectMeta interface{} `json:"kibanaSavedObjectMeta,omitempty"`

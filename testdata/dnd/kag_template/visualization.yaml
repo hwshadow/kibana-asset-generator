@@ -1,0 +1,29 @@
+---
+- title: count of female
+  query: characters-all
+  type: metric
+  metrics:
+  - count
+- title: count of male
+  query: characters-all
+  type: metric
+  metrics:
+  - count
+- title: character age across dob histo
+  query: characters-all
+  type: histogram
+  metrics:
+  - count
+  partitions:
+  - date_histogram<x>(dob)
+  - terms<slice>(dob)
+  - terms<chart>(dob)
+- title: character age across dob table
+  query: characters-all
+  type: table
+  metrics:
+  - count
+  partitions:
+  - terms<slice>(age)
+  - terms<slice>(level)
+  - terms<slice>(coin)
