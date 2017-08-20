@@ -39,7 +39,7 @@
               "index": "not_analyzed",
               "type": "string"
             },
-            "path_match": "^race|class|(first|last)_name|sex$",
+            "path_match": "^race|class|(first|last)_name|sex|city$",
             "match_pattern": "regex"
           }
         },
