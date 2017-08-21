@@ -79,7 +79,17 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 	typee := VisType(matches[1])
 	ori := matches[2]
 	field := matches[3]
-	list := strings.Split(matches[4], ",")
+	l := strings.Split(matches[4], ",")
+	list := make([]interface{}, len(l))
+	for i := 0; i < len(l); i++ {
+		numeric, err := strconv.Atoi(l[i])
+		if err != nil {
+			list[i] = l[i]
+		} else {
+			list[i] = numeric
+		}
+	}
+
 	extra := make(map[string]interface{}, 0)
 	json.Unmarshal([]byte(matches[5]), &extra)
 
@@ -107,7 +117,7 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 	case Percentiles:
 		agg.Schema = Metric
 		agg.Params = map[string]interface{}{
-			"field":    "coin",
+			"field":    field,
 			"percents": list,
 		}
 	case Terms:
@@ -182,7 +192,7 @@ func (visualization *Visualization) Convert() {
 	case Metricc:
 		visualization.Params = map[string]interface{}{
 			"handleNoResults": true,
-			"fontSize":        60,
+			"fontSize":        30,
 		}
 	case Histogram:
 		visualization.Params = map[string]interface{}{

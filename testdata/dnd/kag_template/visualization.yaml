@@ -14,6 +14,23 @@
   type: metric
   metrics:
   - 'cardinality(race)'
+- title: age-percentiles
+  query: characters-all
+  type: metric
+  metrics:
+  - 'percentiles(age)[0,50,90,95,99,100]'
+- title: age-avg
+  query: characters-all
+  type: metric
+  metrics:
+  - 'avg(age)'
+- title: age-avg-race
+  query: characters-all
+  type: metric
+  metrics:
+  - 'avg(age)'
+  partitions:
+  - 'terms<slice>(race){"size": 1000}'
 - title: character-race
   query: characters-all
   type: histogram

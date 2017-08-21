@@ -17,17 +17,8 @@
   - race
   - asc
 30:
-  id: female-thirty-or-under-not-tiefling
-  type: search
-  columns:
-  - first_name
-  - last_name
-  - race
-  - class
-  - age
-  sort:
-  - age
-  - desc
+  id: age-percentiles
+  type: visualization
 31:
   id: female-thirty-or-under-not-tiefling
   type: search
@@ -41,17 +32,11 @@
   - age
   - desc
 32:
-  id: female-thirty-or-under-not-tiefling
-  type: search
-  columns:
-  - first_name
-  - last_name
-  - race
-  - class
-  - age
-  sort:
-  - age
-  - desc
+  id: age-avg
+  type: visualization
+33:
+  id: age-avg-race
+  type: visualization
 01:
   id: character-race-dob
   type: visualization
