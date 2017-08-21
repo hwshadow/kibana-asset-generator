@@ -12,10 +12,35 @@ import (
 	"elastic"
 )
 
-type VisType string
-type VisSchema string
-type VisScale string
-type VisMode string
+type (
+	VisType   string
+	VisSchema string
+	VisScale  string
+	VisMode   string
+
+	AggDSL string
+	Agg    struct {
+		ID string `json:"id,omitempty"`
+		//Enabled bool                   `json:"enabled,omitempty"`
+		Type   VisType                `json:"type,omitempty"`
+		Schema VisSchema              `json:"schema,omitempty"`
+		Params map[string]interface{} `json:"params,omitempty"`
+	}
+	Aggs          []Agg
+	Visualization struct {
+		ID        string                 `json:"-"`
+		Title     string                 `json:"title"`
+		Type      VisType                `json:"type"`
+		Params    map[string]interface{} `json:"params"`
+		Aggs      Aggs                   `json:"aggs"`
+		Listeners map[string]interface{} `json:"listeners"`
+
+		Query      string   `json:"-"`
+		Metrics    []AggDSL `json:"-"`
+		Partitions []AggDSL `json:"-"`
+	}
+	Visualizations []Visualization
+)
 
 var (
 	Metricc     VisType   = "metric"
@@ -48,29 +73,6 @@ var (
 	}
 	DSLFormat = regexp.MustCompile(`(?P<type>[A-z]+)(?:<(?P<orientation>[A-z]*)>)?(?:\((?P<field>[A-z]*)\))?(?:\[(?P<list>[^\]]*)\])?(?P<extra>{.*})?`)
 )
-
-type AggDSL string
-type Agg struct {
-	ID string `json:"id,omitempty"`
-	//Enabled bool                   `json:"enabled,omitempty"`
-	Type   VisType                `json:"type,omitempty"`
-	Schema VisSchema              `json:"schema,omitempty"`
-	Params map[string]interface{} `json:"params,omitempty"`
-}
-type Aggs []Agg
-type Visualization struct {
-	ID        string                 `json:"-"`
-	Title     string                 `json:"title"`
-	Type      VisType                `json:"type"`
-	Params    map[string]interface{} `json:"params"`
-	Aggs      Aggs                   `json:"aggs"`
-	Listeners map[string]interface{} `json:"listeners"`
-
-	Query      string   `json:"-"`
-	Metrics    []AggDSL `json:"-"`
-	Partitions []AggDSL `json:"-"`
-}
-type Visualizations []Visualization
 
 func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 	matches := DSLFormat.FindStringSubmatch(string(*dsl))

@@ -3,37 +3,36 @@
   query: characters-female
   type: metric
   metrics:
-  - count
+  - 'count'
 - title: male-count
   query: characters-male
   type: metric
   metrics:
-  - count
+  - 'count'
 - title: unique-race-count
   query: characters-all
   type: metric
   metrics:
-  - cardinality(race)
+  - 'cardinality(race)'
 - title: character-race
   query: characters-all
   type: histogram
   metrics:
-  - count
+  - 'count'
   partitions:
-  - terms<slice>(race)
+  - 'terms<slice>(race){"size": 1000}'
 - title: character-race-dob
   query: characters-all
   type: histogram
   metrics:
-  - count
+  - 'count'
   partitions:
-  - terms<x>(dob)
-  - terms<slice>(race)
-- title: character-race-origins
+  - 'terms<x>(dob){"size": 1000}'
+  - 'terms<slice>(race){"size": 1000}'
+- title: character-weapons
   query: characters-all
   type: table
   metrics:
-  - count
+  - 'count'
   partitions:
-  - terms<slice>(city)
-  - terms<slice>(race)
+  - 'terms<slice>(weapons){"size": 1000}'

@@ -1,4 +1,4 @@
-01:
+00:
   id: characters-all
   type: search
   columns:
@@ -16,7 +16,7 @@
   sort:
   - race
   - asc
-03:
+30:
   id: female-thirty-or-under-not-tiefling
   type: search
   columns:
@@ -28,24 +28,51 @@
   sort:
   - age
   - desc
-00:
-  id: character-race
-  type: visualization
-02:
+31:
+  id: female-thirty-or-under-not-tiefling
+  type: search
+  columns:
+  - first_name
+  - last_name
+  - race
+  - class
+  - age
+  sort:
+  - age
+  - desc
+32:
+  id: female-thirty-or-under-not-tiefling
+  type: search
+  columns:
+  - first_name
+  - last_name
+  - race
+  - class
+  - age
+  sort:
+  - age
+  - desc
+01:
   id: character-race-dob
   type: visualization
-20:
-  id: character-race-origins
+02:
+  id: character-race
   type: visualization
-30:
+03:
   id: unique-race-count
   type: visualization
-40:
-  id: unique-race-count
-  type: visualization
-21:
+04:
   id: male-count
   type: visualization
-22:
+05:
   id: female-count
+  type: visualization
+06:
+  id: character-weapons
+  type: visualization
+07:
+  id: unique-race-count
+  type: visualization
+08:
+  id: unique-race-count
   type: visualization
