@@ -56,8 +56,8 @@
   id: character-weapons
   type: visualization
 07:
-  id: unique-race-count
+  id: character-coin
   type: visualization
 08:
-  id: unique-race-count
+  id: character-sweet-spot
   type: visualization

@@ -1,4 +1,3 @@
----
 - title: female-count
   query: characters-female
   type: metric
@@ -30,7 +29,7 @@
 #   metrics:
 #   - 'count'
 #   partitions:
-#   - 'terms<slice>(weapons){"size": 1000}'
+#   - 'terms<x>(weapons){"size": 1000}'
 # use with es2
 - title: age-avg-race
   query: characters-all
@@ -40,13 +39,20 @@
   partitions:
   - 'terms<slice>(race){"size": 1000}'
 # use with es5
+- title: character-coin
+  query: characters-all
+  type: histogram
+  metrics:
+  - 'count'
+  partitions:
+  - 'histogram<x>(coin)[2000]'
 - title: character-race
   query: characters-all
   type: histogram
   metrics:
   - 'count'
   partitions:
-  - 'terms<slice>(race){"size": 1000}'
+  - 'terms<x>(race){"size": 1000}'
 - title: character-race-dob
   query: characters-all
   type: histogram
@@ -62,3 +68,10 @@
   - 'count'
   partitions:
   - 'terms<slice>(weapons){"size": 1000}'
+- title: character-sweet-spot
+  query: characters-all
+  type: histogram
+  metrics:
+  - 'count'
+  partitions:
+  - 'filters<x>[weapons:"bow" AND class:"ranger",weapons:"dagger" AND class:"rogue",weapons:"staff" AND (class:"warlock" OR class:"sorcerer"),weapons:"sword" AND class:"paladin"]'

@@ -7,6 +7,7 @@ Got tired of configuring stuff via the kibana GUI ...  so we are going to hackab
 Currently generates
   - Index Patterns
   - Searches
+  - Visualizations (only Metrics, Tables, and Histograms for now)
   - Dashboards
 
 ## Tested against
@@ -34,9 +35,15 @@ $ ls ./testdata/dnd/kag_template
 ```
 
 ### Run the bootstrap script
+if this is your first time running the bootstrap script
+```sh
+cd ./dev/; docker-compose run build-alpine-kag sh -c 'gb vendor restore'; cd -;
+```
+then
 ```sh
 $ ./dev/bootstrap.sh
 ```
+
 
 ### Browse to kibana
 http://localhost:5601/ to enjoy
@@ -87,7 +94,7 @@ $ kag -conf="/etc/app.yaml" -template="/etc/" -ops="s" -index="testdata.dnd"
 ```
 #### Run with connection to elastic and writes enabled
 ```sh
-$ kag -conf="/etc/app.yaml" -template="./kag_template/" -ops="ids" -index="testdata.dnd" -dashTitle="dash" -prefix="testdata-dnd-" -timeField="dob" -write=true
+$ kag -conf="/etc/app.yaml" -template="./kag_template/" -ops="idvs" -index="testdata.dnd" -dashTitle="dash" -prefix="testdata-dnd-" -timeField="dob" -write=true
 ```
 
 ## About
