@@ -1,12 +1,14 @@
-### searches package
+### visualization package
 Will generate kibana visualizations.  Requires a single input: **visualization yaml**.
 
 #### About the DSL
-Follows the general format
+DSL follows the general format
 ```
 agg<scheme>(fieldname)[cvs]{params}
 ```
-A simple configuration looks like this
+It is used in the metrics and partitions yaml sections
+
+A simple yaml configuration looks like this
 ```
 - title: character-race-dob
   query: characters-all
@@ -17,16 +19,17 @@ A simple configuration looks like this
   - 'date_histogram<x>(dob)'
   - 'terms<slice>(race){"size": 1000}'
 ```
+This expresses a desired histogram visualization named "character-race-dob" fed by the "characters-all" search (defined in the search yaml) with Y axis being a basic count, X axis spread across character date of birth, and histogram bars sliced by race (up to 1000).
 
-##### type
-REQUIRED
+##### type - REQUIRED
+
 Controls the what visualization will be generated.  It supports the following:
   * histogram - vertical bar chart
   * table - data table
   * metric - good old metric
 
-##### agg
-REQUIRED
+##### agg - REQUIRED
+
 Controls the aggregation type used.  It supports the following:
   * histogram - aggs a given field at an interval of the first element specific in the csv (integer fields only)
   * date_histogram - aggs a given field at auto calculated by the time window (time fields only)
@@ -34,19 +37,19 @@ Controls the aggregation type used.  It supports the following:
   * filters - aggs based on lucene queries in the csv
   * (count|max|average|cardinality|percentiles) - will direct the creation of a metric agg
 
-##### scheme
-ONLY USED WITH PARTITIONS
+##### scheme - PARTITIONS ONLY
+
 Controls how the aggregated data is arranged inside a visualization. It supports the following:
   * x - will define aggregate data as the x axis (can only be used on visualization with x axis: histograms)
   * slice - will split aggregate data inside the a chart
   * chart - will split aggregate data across multiple charts
 
-##### csv
-USED WITH CERTAIN AGGS (filters, percentiles, histogram)
+##### csv - AGGS of filters, percentiles, or histogram
+
 Provides any input an aggregation could require.  The input is separated at commas.  For example this could be the percentiles for a percentiles metric agg or it could be several lunece queries for a filter agg.
 
-##### params
-OPTIONAL
+##### params - OPTIONAL
+
 Provides a way to set/override any params for a given agg.  Say you don't like the default size in terms you could set
 ```
 {"size": 10}
