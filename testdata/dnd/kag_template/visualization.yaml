@@ -24,6 +24,14 @@
   type: metric
   metrics:
   - 'avg(age)'
+# - title: age-avg-race
+#   query: characters-all
+#   type: table
+#   metrics:
+#   - 'count'
+#   partitions:
+#   - 'terms<slice>(weapons){"size": 1000}'
+# use with es2
 - title: age-avg-race
   query: characters-all
   type: metric
@@ -31,6 +39,7 @@
   - 'avg(age)'
   partitions:
   - 'terms<slice>(race){"size": 1000}'
+# use with es5
 - title: character-race
   query: characters-all
   type: histogram
@@ -44,7 +53,7 @@
   metrics:
   - 'count'
   partitions:
-  - 'terms<x>(dob){"size": 1000}'
+  - 'date_histogram<x>(dob)'
   - 'terms<slice>(race){"size": 1000}'
 - title: character-weapons
   query: characters-all
