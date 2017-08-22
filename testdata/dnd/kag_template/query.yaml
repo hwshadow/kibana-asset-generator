@@ -1,0 +1,8 @@
+all:
+  query: *
+  label: all
+  color: #FFFFFF
+female:
+  query: sex:female
+  label: all
+  color: #F22222

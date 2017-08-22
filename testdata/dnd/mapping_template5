@@ -37,7 +37,7 @@
             "mapping": {
               "type": "keyword"
             },
-            "path_match": "^race|class$",
+            "path_match": "^race|class|(first|last)_name|sex|city|weapons$",
             "match_pattern": "regex"
           }
         },

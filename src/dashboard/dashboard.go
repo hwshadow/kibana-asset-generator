@@ -187,12 +187,12 @@ func (widgetMap WidgetMap) ToDoc(title, prefix, description string) (doc elastic
 	}
 
 	source := elastic.KibanaSource{
-		Title:                 prefix + title,
-		Description:           description,
-		PanelsJSON:            panels,
-		OptionsJSON:           `{"darkTheme":true}`,
-		UIStateJSON:           `{"P-1":{"vis":{"params":{"sort":{"columnIndex":null,"direction":null}}}}}`,
-		Version:               1,
+		Title:       prefix + title,
+		Description: description,
+		PanelsJSON:  panels,
+		OptionsJSON: `{"darkTheme":false}`,
+		UIStateJSON: `{"P-1":{"vis":{"params":{"sort":{"columnIndex":null,"direction":null}}}}}`,
+		//Version:               1,
 		TimeRestore:           false,
 		KibanaSavedObjectMeta: ksom,
 	}
