@@ -71,7 +71,7 @@ var (
 		"slice": Group,
 		"chart": Split,
 	}
-	DSLFormat = regexp.MustCompile(`(?P<type>[A-z]+)(?:<(?P<orientation>[A-z]*)>)?(?:\((?P<field>[A-z]*)\))?(?:\[(?P<list>[^\]]*)\])?(?P<extra>{.*})?`)
+	DSLFormat = regexp.MustCompile(`(?P<type>[A-z]+)(?:<(?P<orientation>[^\>]*)>)?(?:\((?P<field>[^\)]*)\))?(?:\[(?P<list>[^\]]*)\])?(?P<extra>{.*})?`)
 )
 
 func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
@@ -79,6 +79,7 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 	typee := VisType(matches[1])
 	ori := matches[2]
 	field := matches[3]
+
 	l := strings.Split(matches[4], ",")
 	list := make([]interface{}, len(l))
 	for i := 0; i < len(l); i++ {
