@@ -3,3 +3,5 @@
 bin
 pkg
 vendor/src
+kibana2.yml
+app-lab.yaml

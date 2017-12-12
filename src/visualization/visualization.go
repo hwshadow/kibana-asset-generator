@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 
+	yamlw "github.com/ghodss/yaml"
 	yaml "gopkg.in/yaml.v2"
 
 	"elastic"
@@ -39,7 +40,7 @@ type (
 		Metrics    []AggDSL `json:"-"`
 		Partitions []AggDSL `json:"-"`
 	}
-	Visualizations []Visualization
+	Visualizations []*Visualization
 )
 
 var (
@@ -48,6 +49,7 @@ var (
 	Max         VisType   = "max"
 	Avg         VisType   = "avg"
 	Percentiles VisType   = "percentiles"
+	Range       VisType   = "range"
 	Cardinality VisType   = "cardinality"
 	Metric      VisSchema = "metric"
 
@@ -62,9 +64,6 @@ var (
 	Group   VisSchema = "group"
 
 	Table VisType = "table"
-
-	Linear  VisScale = "linear"
-	Stacked VisMode  = "stacked"
 
 	ToSchema = map[string]VisSchema{
 		"x":     Segment,
@@ -120,6 +119,29 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 		agg.Params = map[string]interface{}{
 			"field":    field,
 			"percents": list,
+		}
+	case Range:
+		ranges := []map[string]interface{}{}
+
+		for _, selection := range l {
+			parts := strings.SplitN(selection, "-", 2)
+			rang := map[string]interface{}{}
+			from, err := strconv.Atoi(parts[0])
+			if err == nil {
+				rang["from"] = from
+			}
+			to, err := strconv.Atoi(parts[1])
+			if err == nil {
+				rang["to"] = to
+			}
+			if len(rang) > 0 {
+				ranges = append(ranges, rang)
+			}
+		}
+
+		agg.Params = map[string]interface{}{
+			"field":  field,
+			"ranges": ranges,
 		}
 	case Terms:
 		agg.Params = map[string]interface{}{
@@ -188,7 +210,7 @@ func (visualization *Visualization) Convert() {
 	}
 	visualization.Partitions = nil
 	visualization.Listeners = map[string]interface{}{}
-
+	visualizationParamOverrides := visualization.Params
 	switch visualization.Type {
 	case Metricc:
 		visualization.Params = map[string]interface{}{
@@ -229,6 +251,10 @@ func (visualization *Visualization) Convert() {
 		}
 	}
 
+	for key, param := range visualizationParamOverrides {
+		visualization.Params[key] = param
+	}
+
 	return
 }
 
@@ -240,7 +266,6 @@ func Import(yml []byte) (visualizations Visualizations, err error) {
 
 	for _, visualization := range visualizations {
 		visualization.Convert()
-		visualizations = append(visualizations, visualization)
 	}
 
 	return
@@ -248,19 +273,25 @@ func Import(yml []byte) (visualizations Visualizations, err error) {
 
 func (visualization *Visualization) ToDoc(index, prefix string) (doc elastic.Doc) {
 
-	bytez, err := json.Marshal(visualization)
+	//fmt.Printf("%#v", visualization)
+
+	bytez, err := yaml.Marshal(visualization)
+	if err != nil {
+		return
+	}
+	//https://github.com/go-yaml/yaml/issues/137
+	jbytez, err := yamlw.YAMLToJSON(bytez)
 	if err != nil {
 		return
 	}
 
 	source := elastic.KibanaSource{
 		Title:                 prefix + visualization.Title,
-		VisState:              string(bytez),
+		VisState:              string(jbytez),
 		SavedSearchId:         prefix + visualization.Query,
 		KibanaSavedObjectMeta: map[string]interface{}{"searchSourceJSON": "{\"filter\":[]}"},
 		UIStateJSON:           "{}",
 	}
-	visualization.Query = ""
 
 	doc = elastic.Doc{
 		Index:  elastic.GlobalClient.KibanaIndex,

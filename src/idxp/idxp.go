@@ -85,6 +85,8 @@ func (mapping Mapping) ToFields() (fields Fields, err error) {
 							field.Aggregatable = true
 						case "float":
 							fallthrough
+						case "double":
+							fallthrough
 						case "short":
 							fallthrough
 						case "long":
@@ -105,7 +107,7 @@ func (mapping Mapping) ToFields() (fields Fields, err error) {
 						} else {
 							castedValue, ok := value.(string)
 							if ok {
-								field.Indexed = !(castedValue == "not_analyzed" || castedValue == "no")
+								field.Indexed = !(castedValue != "not_analyzed" && castedValue != "no")
 							}
 						}
 						field.Searchable = field.Indexed

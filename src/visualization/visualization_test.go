@@ -33,6 +33,7 @@ var _ = Describe("Visualization", func() {
 					`terms<x>(City)`,
 					`terms<slice>(City)`,
 					`terms<slice>(City)`,
+					//`range<slice>(age)[-25,26-70,71-]`,
 				}
 				results = Aggs{
 					Agg{ID: "0", Type: "count", Schema: "metric", Params: map[string]interface{}{}},
@@ -47,6 +48,7 @@ var _ = Describe("Visualization", func() {
 					Agg{ID: "9", Type: "terms", Schema: "segment", Params: map[string]interface{}{"field": "City", "size": 5}},
 					Agg{ID: "10", Type: "terms", Schema: "", Params: map[string]interface{}{"field": "City", "size": 5}},
 					Agg{ID: "11", Type: "terms", Schema: "", Params: map[string]interface{}{"field": "City", "size": 5}},
+					//Agg{ID: "12", Type: "range", Schema: "group", Params: map[string]interface{}{"field": "age", "ranges": []interface{}{map[string]interface{}{"to": 25}, map[string]interface{}{"from": 26, "to": 70}, map[string]interface{}{"from": 71}}}},
 				}
 			})
 
