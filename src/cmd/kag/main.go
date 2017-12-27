@@ -102,35 +102,25 @@ func main() {
 	}
 
 	// WRITE TO ELASTIC
+	allDocs := make(elastic.Docs, 0)
+
 	if flagWrite {
 		if strings.Contains(flagOperations, "i") {
-			err = indexPatternDoc.Save()
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
+			allDocs = append(allDocs, indexPatternDoc)
 		}
-
 		if strings.Contains(flagOperations, "s") {
-			err = searchDocs.Save()
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
+			allDocs = append(allDocs, searchDocs...)
 		}
 		if strings.Contains(flagOperations, "v") {
-			err = visualizationDocs.Save()
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
+			allDocs = append(allDocs, visualizationDocs...)
 		}
 		if strings.Contains(flagOperations, "d") {
-			err = dashboardDoc.Save()
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
+			allDocs = append(allDocs, dashboardDoc)
+		}
+		err = allDocs.Save()
+		if err != nil {
+			fmt.Println(err.Error())
+			return
 		}
 	}
 }

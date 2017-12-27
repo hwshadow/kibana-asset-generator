@@ -14,7 +14,7 @@ import (
 )
 
 var layoutPattern *regexp.Regexp = regexp.MustCompile(`(?:[0-9]|_|=|\||\^|\<|\>){2}(?:\.(?:[0-9]|_|=|\||\^|\<|\>){2}){11}`)
-var numberPattern *regexp.Regexp = regexp.MustCompile(`^[0-9]{2}`)
+var numberPattern *regexp.Regexp = regexp.MustCompile(`^[0-9]{2}$`)
 
 type (
 	WidgetMap map[string]Widget
