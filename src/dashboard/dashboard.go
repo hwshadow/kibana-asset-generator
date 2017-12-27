@@ -14,7 +14,7 @@ import (
 )
 
 var layoutPattern *regexp.Regexp = regexp.MustCompile(`(?:[0-9]|_|=|\||\^|\<|\>){2}(?:\.(?:[0-9]|_|=|\||\^|\<|\>){2}){11}`)
-var numberPattern *regexp.Regexp = regexp.MustCompile(`[0-9]{2}`)
+var numberPattern *regexp.Regexp = regexp.MustCompile(`^[0-9]{2}`)
 
 type (
 	WidgetMap map[string]Widget
@@ -145,7 +145,7 @@ func (widgetMap WidgetMap) Validate() (err error) {
 		}
 
 		if numberPattern.MatchString(widget.ID) {
-			err = fmt.Errorf("%s's ID %s should remain a number, it should be descriptive", key, widget.ID)
+			err = fmt.Errorf("%s's ID %s should be descriptive", key, widget.ID)
 			return
 		}
 	}
