@@ -29,16 +29,16 @@ type (
 	}
 	Aggs          []Agg
 	Visualization struct {
-		ID        string                 `json:"-"`
+		ID        string                 `json:"-",yaml:"-"`
 		Title     string                 `json:"title"`
 		Type      VisType                `json:"type"`
 		Params    map[string]interface{} `json:"params"`
 		Aggs      Aggs                   `json:"aggs"`
 		Listeners map[string]interface{} `json:"listeners"`
 
-		Query      string   `json:"-"`
-		Metrics    []AggDSL `json:"-"`
-		Partitions []AggDSL `json:"-"`
+		Query      string   `json:"-",yaml:"-"`
+		Metrics    []AggDSL `json:"-",yaml:"-"`
+		Partitions []AggDSL `json:"-",yaml:"-"`
 	}
 	Visualizations []*Visualization
 )
@@ -47,6 +47,7 @@ var (
 	Metricc     VisType   = "metric"
 	Count       VisType   = "count"
 	Max         VisType   = "max"
+	Min         VisType   = "min"
 	Avg         VisType   = "avg"
 	Percentiles VisType   = "percentiles"
 	Range       VisType   = "range"
@@ -107,6 +108,8 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 		agg.Schema = Metric
 	case Max:
 		fallthrough
+	case Min:
+		fallthrough
 	case Avg:
 		fallthrough
 	case Cardinality:
@@ -151,16 +154,23 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 	case Filters:
 		filters := make([]map[string]interface{}, 0)
 		for _, query := range list {
+			queryDirectives := strings.Split(query.(string), ";")
+			q := queryDirectives[0]
+			label := queryDirectives[0]
+			if len(queryDirectives) > 1 {
+				label = queryDirectives[1]
+			}
+
 			filters = append(filters, map[string]interface{}{
 				"input": map[string]interface{}{
 					"query": map[string]interface{}{
 						"query_string": map[string]interface{}{
-							"query":            query,
+							"query":            q,
 							"analyze_wildcard": true,
 						},
 					},
 				},
-				"label": query,
+				"label": label,
 			})
 		}
 		agg.Params = map[string]interface{}{
@@ -290,7 +300,7 @@ func (visualization *Visualization) ToDoc(index, prefix string) (doc elastic.Doc
 		VisState:              string(jbytez),
 		SavedSearchId:         prefix + visualization.Query,
 		KibanaSavedObjectMeta: map[string]interface{}{"searchSourceJSON": "{\"filter\":[]}"},
-		UIStateJSON:           "{}",
+		UIStateJSON:           "{\"vis\":{\"colors\":{}}}",
 	}
 
 	doc = elastic.Doc{

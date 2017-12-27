@@ -12,11 +12,9 @@ import (
 
 const HOST_ENDPOINT = `{{.Proto}}://{{.Host}}:{{.Port}}`
 const FIELD_MAPPINGS_ENDPOINT = `/{{.Index}}/_mapping/*/field/*?include_defaults=false`
-const CREATE_DOC_ENDPOINT = `/{{.Index}}/{{.Type}}/{{.Id}}`
 
 var HOST_TEMPLATE = template.Must(template.New("HOST_ENDPOINT").Parse(HOST_ENDPOINT))
 var FIELD_MAPPINGS_TEMPLATE = template.Must(template.New("FIELD_MAPPINGS_ENDPOINT").Parse(FIELD_MAPPINGS_ENDPOINT))
-var CREATE_DOC_TEMPLATE = template.Must(template.New("CREATE_DOC_TEMPLATE").Parse(CREATE_DOC_ENDPOINT))
 
 var GlobalClient *Client
 
@@ -98,33 +96,38 @@ func GetFieldMappings(tar Target) (body []byte, err error) {
 	body, err = ioutil.ReadAll(resp.Body)
 	return
 }
+func (doc Doc) BulkIndexStanza() (cmd string) {
+	innerDocument := map[string]interface{}{"_index": doc.Index, "_type": doc.Type, "_id": doc.Id}
+	bytes, _ := json.Marshal(map[string]interface{}{"index": innerDocument})
+	return string(bytes)
+}
+
+func (doc Doc) BulkContent() (content string) {
+	bytes, _ := json.Marshal(doc.Source)
+	return string(bytes)
+}
 
 func (doc Doc) Save() (err error) {
-	target := Target{doc.Index, doc.Type, doc.Id}
-
-	var url bytes.Buffer
-	err = CREATE_DOC_TEMPLATE.Execute(&url, target)
-	if err != nil {
-		return
-	}
-	bytez, err := json.Marshal(doc.Source)
-	if err != nil {
-		return
-	}
-	address, err := GetServerAddress()
-	if err != nil {
-		return
-	}
-	_, err = http.Post(address+url.String(), "text/json", bytes.NewBuffer(bytez))
+	docs := Docs{doc}
+	docs.Save()
 	return
 }
 
 func (docs Docs) Save() (err error) {
+	bulk := make([]byte, 0)
 	for _, doc := range docs {
-		err = doc.Save()
-		if err != nil {
-			return
-		}
+		bulk = append(bulk, doc.BulkIndexStanza()...)
+		bulk = append(bulk, []byte("\n")...)
+		bulk = append(bulk, doc.BulkContent()...)
+		bulk = append(bulk, []byte("\n")...)
+
 	}
+
+	address, err := GetServerAddress()
+	if err != nil {
+		return
+	}
+
+	_, err = http.Post(address+"/_bulk", "text/json", bytes.NewBuffer(bulk))
 	return
 }
