@@ -83,7 +83,7 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 	l := strings.Split(matches[4], ",")
 	list := make([]interface{}, len(l))
 	for i := 0; i < len(l); i++ {
-		numeric, err := strconv.Atoi(l[i])
+		numeric, err := strconv.ParseFloat(l[i], 64)
 		if err != nil {
 			list[i] = l[i]
 		} else {
@@ -129,11 +129,11 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 		for _, selection := range l {
 			parts := strings.SplitN(selection, "-", 2)
 			rang := map[string]interface{}{}
-			from, err := strconv.Atoi(parts[0])
+			from, err := strconv.ParseFloat(parts[0], 64)
 			if err == nil {
 				rang["from"] = from
 			}
-			to, err := strconv.Atoi(parts[1])
+			to, err := strconv.ParseFloat(parts[1], 64)
 			if err == nil {
 				rang["to"] = to
 			}
