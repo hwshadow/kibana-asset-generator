@@ -49,6 +49,7 @@ var (
 	Max         VisType   = "max"
 	Min         VisType   = "min"
 	Avg         VisType   = "avg"
+	Sum         VisType   = "sum"
 	Percentiles VisType   = "percentiles"
 	Range       VisType   = "range"
 	Cardinality VisType   = "cardinality"
@@ -111,6 +112,8 @@ func (dsl *AggDSL) Parse(id int) (agg Agg, err error) {
 	case Min:
 		fallthrough
 	case Avg:
+		fallthrough
+	case Sum:
 		fallthrough
 	case Cardinality:
 		agg.Schema = Metric
