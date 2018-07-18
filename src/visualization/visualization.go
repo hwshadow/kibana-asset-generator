@@ -67,6 +67,8 @@ var (
 	Group   VisSchema = "group"
 
 	Table VisType = "table"
+	
+	Pie VisType = "pie"
 
 	ToSchema = map[string]VisSchema{
 		"x":     Segment,
@@ -264,6 +266,20 @@ func (visualization *Visualization) Convert() {
 			},
 			"showTotal": false,
 			"totalFunc": "sum",
+		}
+	case Pie:
+		for i, agg := range visualization.Aggs {
+			if agg.Schema == Group {
+				agg.Schema = Segment
+			}
+			visualization.Aggs[i] = agg
+		}
+		visualization.Params = map[string]interface{}{
+			"addTooltip":     true,
+			"addLegend":      true,
+			"legendPosition": "right",
+			"isDonut":        true,
+			"type":           "pie",
 		}
 	}
 
