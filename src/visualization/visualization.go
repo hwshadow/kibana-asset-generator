@@ -56,6 +56,7 @@ var (
 	Metric      VisSchema = "metric"
 
 	Histogram     VisType   = "histogram"
+	HorizontalBar VisType   = "horizontal_bar"
 	DateHistogram VisType   = "date_histogram"
 	Segment       VisSchema = "segment"
 
@@ -230,6 +231,8 @@ func (visualization *Visualization) Convert() {
 			"handleNoResults": true,
 			"fontSize":        30,
 		}
+	case HorizontalBar:
+		fallthrough
 	case Histogram:
 		visualization.Params = map[string]interface{}{
 			"shareYAxis":      true,
